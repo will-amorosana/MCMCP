@@ -117,74 +117,176 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
+})({"index.js":[function(require,module,exports) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Params = /*#__PURE__*/function () {
+  function Params(x, y) {
+    _classCallCheck(this, Params);
+
+    _defineProperty(this, "x", void 0);
+
+    _defineProperty(this, "y", void 0);
+
+    this.x = x;
+    this.y = y;
   }
 
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
+  _createClass(Params, [{
+    key: "isLegal",
+    value: function isLegal() {
+      if (this.x < 0 || this.x > 350) return false;
+      if (this.y < 0 || this.y > 250) return false;
+      return true;
     }
+  }, {
+    key: "x",
+    get: function get() {
+      return this.x;
+    }
+  }, {
+    key: "y",
+    get: function get() {
+      return this.y;
+    }
+  }]);
+
+  return Params;
+}();
+
+var Chain = /*#__PURE__*/function () {
+  function Chain(prop_var) {
+    _classCallCheck(this, Chain);
+
+    _defineProperty(this, "prop_var", 10);
+
+    _defineProperty(this, "results", []);
+
+    this.prop_var = prop_var;
   }
 
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
+  _createClass(Chain, [{
+    key: "addPoint",
+    value: function addPoint(x, y) {
+      this.results.push(new Params(x, y));
+    }
+  }, {
+    key: "state",
+    value: function state() {
+      if (this.results.length == 0) {
+        //If this is the first iteration, send back null
+        return null;
+      } else {
+        //If not, return the tail of the chain
+        return this.results[this.results.length - 1];
       }
     }
+  }]);
 
-    cssTimeout = null;
-  }, 50);
+  return Chain;
+}(); //Initialize Chains
+
+
+var chain_a = new Chain(20);
+var chain_b = new Chain(10);
+var chain_c = new Chain(5);
+var current_chain = chain_a; //Initialize local variables
+
+var x1 = 0,
+    x2 = 0,
+    y1 = 0,
+    y2 = 0; //Get references for HTML elements
+
+var c1 = document.getElementById("canvas_1");
+var c2 = document.getElementById("canvas_2");
+var panel1 = c1.getContext("2d");
+var panel2 = c2.getContext("2d"); //Function for drawing the oval
+
+function ellipse(context, cx, cy, rx, ry) {
+  context.clearRect(0, 0, cx * 2, cy * 2);
+  context.save(); // save state
+
+  context.beginPath();
+  context.translate(cx - rx, cy - ry);
+  context.scale(rx, ry);
+  context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+  context.restore(); // restore to original state
+
+  context.stroke();
+} //Add listeners to each panel
+
+
+var left_click = c1.addEventListener('click', clicked_left);
+var right_click = c2.addEventListener('click', clicked_right);
+
+function next_chain(x) {
+  if (x == chain_a) return chain_b;else if (x == chain_b) return chain_c;else if (x == chain_c) return chain_a;else return null;
 }
 
-module.exports = reloadCSS;
-},{"./bundle-url":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+function prop(variance) {
+  var u = 0,
+      v = 0;
+
+  while (u === 0) {
+    u = Math.random();
+  } //Converting [0,1) to (0,1)
+
+
+  while (v === 0) {
+    v = Math.random();
+  }
+
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v) * variance;
+}
+
+;
+
+function clicked_left() {
+  current_chain.addPoint(x1, y1);
+}
+
+function clicked_right() {
+  current_chain.addPoint(x2, y2);
+}
+
+while (true) {
+  var old_params = current_chain.state();
+
+  if (old_params == null) {
+    x1 = Math.floor(Math.random() * 350);
+    y1 = Math.floor(Math.random() * 350);
+    x2 = Math.floor(Math.random() * 350);
+    y2 = Math.floor(Math.random() * 350);
+  } else {
+    var new_params = new Params(old_params.x() + prop(current_chain.prop_var), old_params.y() + prop(current_chain.prop_var));
+
+    while (!new_params.isLegal()) {
+      current_chain.addPoint(old_params.x(), old_params.y());
+      new_params = new Params(old_params.x() + prop(current_chain.prop_var), old_params.y() + prop(current_chain.prop_var));
+    }
+
+    if (Math.random() > .5) {
+      var side1 = old_params;
+      var side2 = new_params;
+    } else {
+      var _side = new_params;
+      var _side2 = old_params;
+    } //TODO: Bounds Detection
+
+
+    ellipse(panel1, 350, 350, x1, y1);
+    ellipse(panel2, 350, 350, x2, y2);
+    Promise.any([left_click, right_click]);
+  } //TODO: Make it iterate.
+
+}
+},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -212,7 +314,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50124" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59913" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -388,5 +490,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/index.js.map

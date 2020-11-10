@@ -20,7 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ee64a8f-ac66-4ec8-ae57-9c0219013406" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.cache/99/b0ac7ee271f8a1b2775b26c826ac63.json" beforeDir="false" afterPath="$PROJECT_DIR$/.cache/99/b0ac7ee271f8a1b2775b26c826ac63.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/ea/30e0994ad45342ff35594738bb948c.json" beforeDir="false" afterPath="$PROJECT_DIR$/.cache/ea/30e0994ad45342ff35594738bb948c.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chain.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +82,7 @@
       <workItem from="1603969387042" duration="6288000" />
       <workItem from="1604407344038" duration="6347000" />
       <workItem from="1604594118158" duration="1222000" />
-      <workItem from="1605013258924" duration="324000" />
+      <workItem from="1605013258924" duration="5034000" />
     </task>
     <servers />
   </component>
@@ -101,9 +106,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="574" y="127" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1604409325746" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605018430536">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1605018430536" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1601905318443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1601905318443" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605015026722">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1605015026722" />
   </component>
 </project>
