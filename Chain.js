@@ -45,6 +45,17 @@ class Chain {
         while(v === 0) v = Math.random();
         return (Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )) * variance;
     };
+    state(){
+        if(this.results.length == 0){ //If this is the first iteration, send back null so the
+            return null;
+        } else { //If not, take the tail of the chain and mutate it by the proposal distribution
+            var x = this.results[this.results.length-1].x();
+            var y = this.results[this.results.length-1].y();
+            return new Coords(x,y);
+        }
+    }
+
+
 
     test(context_1, context_2){//Run a single MCMCP iteration
         if(this.results.length == 0){ //If this is the first iteration, randomize both ovals
