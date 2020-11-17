@@ -222,9 +222,6 @@ function ellipse(context, cx, cy, rx, ry) {
 } //Add listeners to each panel
 
 
-var left_click = c1.addEventListener('click', clicked_left);
-var right_click = c2.addEventListener('click', clicked_right);
-
 function next_chain(x) {
   if (x == chain_a) return chain_b;else if (x == chain_b) return chain_c;else if (x == chain_c) return chain_a;else return null;
 }
@@ -247,26 +244,21 @@ function prop(variance) {
 
 ;
 
-function clicked_left() {
-  current_chain.addPoint(x1, y1);
-}
-
-function clicked_right() {
-  current_chain.addPoint(x2, y2);
-}
-
 while (true) {
-  var old_params = current_chain.state();
+  var old_params = current_chain.state(); //Get the last point from the current chain
 
   if (old_params == null) {
+    //If it's empty (a new chain), generate uniformly random values for all parameters for both choices
     x1 = Math.floor(Math.random() * 350);
     y1 = Math.floor(Math.random() * 350);
     x2 = Math.floor(Math.random() * 350);
     y2 = Math.floor(Math.random() * 350);
   } else {
+    //If you did get a state, create a proposed state by modifying the old one by the proposal distribution TODO: ABSTRACT THE VECTOR
     var new_params = new Params(old_params.x() + prop(current_chain.prop_var), old_params.y() + prop(current_chain.prop_var));
 
     while (!new_params.isLegal()) {
+      //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
       current_chain.addPoint(old_params.x(), old_params.y());
       new_params = new Params(old_params.x() + prop(current_chain.prop_var), old_params.y() + prop(current_chain.prop_var));
     }
@@ -275,16 +267,33 @@ while (true) {
       var side1 = old_params;
       var side2 = new_params;
     } else {
-      var _side = new_params;
-      var _side2 = old_params;
-    } //TODO: Bounds Detection
+      var side1 = new_params;
+      var side2 = old_params;
+    }
+
+    ellipse(panel1, 350, 350, side1.x, side1.y);
+    ellipse(panel2, 350, 350, side2.x, side2.y);
+    var clicks = new Promise(function (resolve, reject) {
+      c1.addEventListener('click', function (event) {
+        resolve('left');
+      });
+      c2.addEventListener('click', function (event) {
+        resolve('right');
+      });
+    });
+    clicks.then(function (result) {
+      if (result == 'left') {
+        current_chain.addPoint(side1);
+      } else if (result == 'right') {
+        current_chain.addPoint(side2);
+      }
+    }, function (error) {
+      console.log(error);
+    });
+  } //Rotate to the next chain
 
 
-    ellipse(panel1, 350, 350, x1, y1);
-    ellipse(panel2, 350, 350, x2, y2);
-    Promise.any([left_click, right_click]);
-  } //TODO: Make it iterate.
-
+  current_chain = next_chain(current_chain);
 }
 },{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -314,7 +323,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59913" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64720" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
