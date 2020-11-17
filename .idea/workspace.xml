@@ -19,15 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ee64a8f-ac66-4ec8-ae57-9c0219013406" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.cache/99/b0ac7ee271f8a1b2775b26c826ac63.json" beforeDir="false" afterPath="$PROJECT_DIR$/.cache/99/b0ac7ee271f8a1b2775b26c826ac63.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cache/ea/30e0994ad45342ff35594738bb948c.json" beforeDir="false" afterPath="$PROJECT_DIR$/.cache/ea/30e0994ad45342ff35594738bb948c.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chain.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="6ee64a8f-ac66-4ec8-ae57-9c0219013406" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
