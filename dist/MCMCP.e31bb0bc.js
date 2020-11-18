@@ -118,7 +118,75 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"index.js":[function(require,module,exports) {
-console.log('hello world!');
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+class Params {
+  constructor(x, y) {
+    _defineProperty(this, "x", void 0);
+
+    _defineProperty(this, "y", void 0);
+
+    this.x = x;
+    this.y = y;
+  }
+
+  isLegal() {
+    if (this.x < 0 || this.x > 350) return false;
+    if (this.y < 0 || this.y > 250) return false;
+    return true;
+  }
+
+  toString() {
+    return "(X: " + this.x + ", Y: " + this.y + ")";
+  }
+
+}
+
+class Chain {
+  constructor(prop_var) {
+    _defineProperty(this, "prop_var", 10);
+
+    _defineProperty(this, "results", []);
+
+    this.prop_var = prop_var;
+  }
+
+  addPoint(x, y) {
+    this.results.push(new Params(x, y));
+  }
+
+  state() {
+    if (this.results.length == 0) {
+      //If this is the first iteration, send back null
+      return null;
+    } else {
+      //If not, return the tail of the chain
+      return this.results[this.results.length - 1];
+    }
+  }
+
+} //Initialize Chains
+
+
+var chain_a = new Chain(20);
+var chain_b = new Chain(10);
+var chain_c = new Chain(5);
+var current_chain = chain_a; //Initialize local variables
+
+var x1 = 0,
+    x2 = 0,
+    y1 = 0,
+    y2 = 0; //Sleep function
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+} //Get references for HTML elements
+
+
+var c1 = document.getElementById("canvas_1");
+var c2 = document.getElementById("canvas_2");
+var panel1 = c1.getContext("2d");
+var panel2 = c2.getContext("2d"); //Function for drawing the oval
 
 function ellipse(context, cx, cy, rx, ry) {
   context.clearRect(0, 0, cx * 2, cy * 2);
@@ -131,71 +199,97 @@ function ellipse(context, cx, cy, rx, ry) {
   context.restore(); // restore to original state
 
   context.stroke();
+} //Add listeners to each panel
+
+
+function next_chain(x) {
+  if (x == chain_a) return chain_b;else if (x == chain_b) return chain_c;else if (x == chain_c) return chain_a;else return null;
 }
 
 function prop(variance) {
-  var u = 0,
+  let u = 0,
       v = 0;
 
-  while (u === 0) {
-    u = Math.random();
-  } //Converting [0,1) to (0,1)
+  while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
 
 
-  while (v === 0) {
-    v = Math.random();
-  }
+  while (v === 0) v = Math.random();
 
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v) * variance;
 }
 
-function redraw(x, y) {
-  console.log("Chosen values: " + x + ", " + y);
-  results.push([x, y]);
-  var newx = x + prop(20);
-  var newy = y + prop(20);
+;
 
-  if (newx > 350 || newy > 350) {
-    redraw(x, y);
+async function test_chain(chain) {
+  let old_params = chain.state(); //Get the last point from the current chain
+
+  let new_params = null;
+  let side1 = null;
+  let side2 = null;
+
+  if (old_params == null) {
+    //If it's empty (a new chain), generate uniformly random values for all parameters for both choices
+    old_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
+    new_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
   } else {
-    if (Math.random() >= 0.5) {
-      ellipse(panel1, 350, 350, x, y);
-      ellipse(panel2, 350, 350, newx, newy);
-      x1 = x, y1 = y;
-      x2 = newx, y2 = newy;
-      console.log("Assignment one!");
-    } else {
-      ellipse(panel1, 350, 350, newx, newy);
-      ellipse(panel2, 350, 350, x, y);
-      x1 = newx, y1 = newy;
-      x2 = x, y2 = y;
-      console.log("Assignment two!");
+    //If you did get a state, create a proposed state by modifying the old one by the proposal distribution TODO: ABSTRACT THE VECTOR
+    new_params = new Params(old_params.x + prop(chain.prop_var), old_params.y + prop(chain.prop_var));
+
+    while (!new_params.isLegal()) {
+      //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
+      chain.addPoint(old_params.x, old_params.y);
+      new_params = new Params(old_params.x + prop(chain.prop_var), old_params.y + prop(chain.prop_var));
     }
   }
-} //Define objects
 
+  if (Math.random() > .5) {
+    side1 = old_params;
+    side2 = new_params;
+  } else {
+    side1 = new_params;
+    side2 = old_params;
+  }
 
-var results = [];
-var c1 = document.getElementById("canvas_1");
-var c2 = document.getElementById("canvas_2");
-var panel1 = c1.getContext("2d");
-var panel2 = c2.getContext("2d"); //Initialize variables
+  ellipse(panel1, 350, 350, side1.x, side1.y);
+  ellipse(panel2, 350, 350, side2.x, side2.y);
+  let left_click = new Promise(function (resolve, reject) {
+    c1.addEventListener('click', function (event) {
+      //console.log("Clicked Left!");
+      resolve('left');
+    }, {
+      once: true
+    });
+  });
+  let right_click = new Promise(function (resolve, reject) {
+    c2.addEventListener('click', function (event) {
+      //console.log("Clicked Right!");
+      resolve('right');
+    }, {
+      once: true
+    });
+  });
+  const promises = [left_click, right_click];
+  await Promise.any(promises).then(function (result) {
+    if (result == 'left') {
+      chain.addPoint(side1.x, side2.y); //console.log("Point Added From Side 1 to "+chain.name+"!");
+    } else if (result == 'right') {
+      chain.addPoint(side2.x, side2.y); //console.log("Point Added From Side 2 to "+chain.name+"!");
+    }
+  }, function (error) {
+    console.log(error);
+  });
+}
 
-var x1 = Math.floor(Math.random() * 350);
-var y1 = Math.floor(Math.random() * 350);
-var x2 = Math.floor(Math.random() * 350);
-var y2 = Math.floor(Math.random() * 350); //Draw initial ellipses
-
-ellipse(panel1, 350, 350, x1, y1);
-ellipse(panel2, 350, 350, x2, y2); //Event listeners
-
-c1.addEventListener('click', function (event) {
-  // console.log("You clicked on C1!")
-  redraw(x1, y1);
-});
-c2.addEventListener('click', function (event) {
-  redraw(x2, y2);
-});
+(async () => {
+  while (true) {
+    await test_chain(chain_a);
+    await test_chain(chain_b);
+    await test_chain(chain_c);
+    console.log('A: ' + chain_a.state().toString() + " (" + chain_a.results.length + " points)");
+    console.log('B: ' + chain_b.state().toString() + " (" + chain_b.results.length + " points)");
+    console.log('C: ' + chain_c.state().toString() + " (" + chain_c.results.length + " points)");
+  }
+})();
 },{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -224,7 +318,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50988" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55393" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

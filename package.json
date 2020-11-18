@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "d3": "^6.2.0",
+    "parcel": "^1.12.4",
     "puppeteer": "^5.5.0"
   },
   "browserslist": [
@@ -20,4 +21,3 @@
     "last 3 safari versions"
   ]
 }
-
