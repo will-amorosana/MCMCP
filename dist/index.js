@@ -118,18 +118,10 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"index.js":[function(require,module,exports) {
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var Params = /*#__PURE__*/function () {
-  function Params(x, y) {
-    _classCallCheck(this, Params);
-
+class Params {
+  constructor(x, y) {
     _defineProperty(this, "x", void 0);
 
     _defineProperty(this, "y", void 0);
@@ -138,32 +130,20 @@ var Params = /*#__PURE__*/function () {
     this.y = y;
   }
 
-  _createClass(Params, [{
-    key: "isLegal",
-    value: function isLegal() {
-      if (this.x < 0 || this.x > 350) return false;
-      if (this.y < 0 || this.y > 250) return false;
-      return true;
-    }
-  }, {
-    key: "x",
-    get: function get() {
-      return this.x;
-    }
-  }, {
-    key: "y",
-    get: function get() {
-      return this.y;
-    }
-  }]);
+  isLegal() {
+    if (this.x < 0 || this.x > 350) return false;
+    if (this.y < 0 || this.y > 250) return false;
+    return true;
+  }
 
-  return Params;
-}();
+  toString() {
+    return "(X: " + this.x + ", Y: " + this.y + ")";
+  }
 
-var Chain = /*#__PURE__*/function () {
-  function Chain(prop_var) {
-    _classCallCheck(this, Chain);
+}
 
+class Chain {
+  constructor(prop_var) {
     _defineProperty(this, "prop_var", 10);
 
     _defineProperty(this, "results", []);
@@ -171,26 +151,21 @@ var Chain = /*#__PURE__*/function () {
     this.prop_var = prop_var;
   }
 
-  _createClass(Chain, [{
-    key: "addPoint",
-    value: function addPoint(x, y) {
-      this.results.push(new Params(x, y));
-    }
-  }, {
-    key: "state",
-    value: function state() {
-      if (this.results.length == 0) {
-        //If this is the first iteration, send back null
-        return null;
-      } else {
-        //If not, return the tail of the chain
-        return this.results[this.results.length - 1];
-      }
-    }
-  }]);
+  addPoint(x, y) {
+    this.results.push(new Params(x, y));
+  }
 
-  return Chain;
-}(); //Initialize Chains
+  state() {
+    if (this.results.length == 0) {
+      //If this is the first iteration, send back null
+      return null;
+    } else {
+      //If not, return the tail of the chain
+      return this.results[this.results.length - 1];
+    }
+  }
+
+} //Initialize Chains
 
 
 var chain_a = new Chain(20);
@@ -201,7 +176,12 @@ var current_chain = chain_a; //Initialize local variables
 var x1 = 0,
     x2 = 0,
     y1 = 0,
-    y2 = 0; //Get references for HTML elements
+    y2 = 0; //Sleep function
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+} //Get references for HTML elements
+
 
 var c1 = document.getElementById("canvas_1");
 var c2 = document.getElementById("canvas_2");
@@ -222,71 +202,95 @@ function ellipse(context, cx, cy, rx, ry) {
 } //Add listeners to each panel
 
 
-var left_click = c1.addEventListener('click', clicked_left);
-var right_click = c2.addEventListener('click', clicked_right);
-
 function next_chain(x) {
   if (x == chain_a) return chain_b;else if (x == chain_b) return chain_c;else if (x == chain_c) return chain_a;else return null;
 }
 
 function prop(variance) {
-  var u = 0,
+  let u = 0,
       v = 0;
 
-  while (u === 0) {
-    u = Math.random();
-  } //Converting [0,1) to (0,1)
+  while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
 
 
-  while (v === 0) {
-    v = Math.random();
-  }
+  while (v === 0) v = Math.random();
 
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v) * variance;
 }
 
 ;
 
-function clicked_left() {
-  current_chain.addPoint(x1, y1);
-}
+async function test_chain(chain) {
+  let old_params = chain.state(); //Get the last point from the current chain
 
-function clicked_right() {
-  current_chain.addPoint(x2, y2);
-}
-
-while (true) {
-  var old_params = current_chain.state();
+  let new_params = null;
+  let side1 = null;
+  let side2 = null;
 
   if (old_params == null) {
-    x1 = Math.floor(Math.random() * 350);
-    y1 = Math.floor(Math.random() * 350);
-    x2 = Math.floor(Math.random() * 350);
-    y2 = Math.floor(Math.random() * 350);
+    //If it's empty (a new chain), generate uniformly random values for all parameters for both choices
+    old_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
+    new_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
   } else {
-    var new_params = new Params(old_params.x() + prop(current_chain.prop_var), old_params.y() + prop(current_chain.prop_var));
+    //If you did get a state, create a proposed state by modifying the old one by the proposal distribution TODO: ABSTRACT THE VECTOR
+    new_params = new Params(old_params.x + prop(chain.prop_var), old_params.y + prop(chain.prop_var));
 
     while (!new_params.isLegal()) {
-      current_chain.addPoint(old_params.x(), old_params.y());
-      new_params = new Params(old_params.x() + prop(current_chain.prop_var), old_params.y() + prop(current_chain.prop_var));
+      //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
+      chain.addPoint(old_params.x, old_params.y);
+      new_params = new Params(old_params.x + prop(chain.prop_var), old_params.y + prop(chain.prop_var));
     }
+  }
 
-    if (Math.random() > .5) {
-      var side1 = old_params;
-      var side2 = new_params;
-    } else {
-      var _side = new_params;
-      var _side2 = old_params;
-    } //TODO: Bounds Detection
+  if (Math.random() > .5) {
+    side1 = old_params;
+    side2 = new_params;
+  } else {
+    side1 = new_params;
+    side2 = old_params;
+  }
 
-
-    ellipse(panel1, 350, 350, x1, y1);
-    ellipse(panel2, 350, 350, x2, y2);
-    Promise.any([left_click, right_click]);
-  } //TODO: Make it iterate.
-
+  ellipse(panel1, 350, 350, side1.x, side1.y);
+  ellipse(panel2, 350, 350, side2.x, side2.y);
+  let left_click = new Promise(function (resolve, reject) {
+    c1.addEventListener('click', function (event) {
+      //console.log("Clicked Left!");
+      resolve('left');
+    }, {
+      once: true
+    });
+  });
+  let right_click = new Promise(function (resolve, reject) {
+    c2.addEventListener('click', function (event) {
+      //console.log("Clicked Right!");
+      resolve('right');
+    }, {
+      once: true
+    });
+  });
+  const promises = [left_click, right_click];
+  await Promise.any(promises).then(function (result) {
+    if (result == 'left') {
+      chain.addPoint(side1.x, side2.y); //console.log("Point Added From Side 1 to "+chain.name+"!");
+    } else if (result == 'right') {
+      chain.addPoint(side2.x, side2.y); //console.log("Point Added From Side 2 to "+chain.name+"!");
+    }
+  }, function (error) {
+    console.log(error);
+  });
 }
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+(async () => {
+  while (true) {
+    await test_chain(chain_a);
+    await test_chain(chain_b);
+    await test_chain(chain_c);
+    console.log('A: ' + chain_a.state().toString() + " (" + chain_a.results.length + " points)");
+    console.log('B: ' + chain_b.state().toString() + " (" + chain_b.results.length + " points)");
+    console.log('C: ' + chain_c.state().toString() + " (" + chain_c.results.length + " points)");
+  }
+})();
+},{}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -314,7 +318,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59913" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57126" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -490,5 +494,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/index.js.map
