@@ -1,6 +1,3 @@
-
-
-//This is how coordinates are passed between methods. It's basically just a tuple that can check if it's beyond bounds [0,350].
 class Params{
     x;
     y;
@@ -18,8 +15,6 @@ class Params{
     }
 }
 
-
-//Chains hold their own proposal variance and an array of Params as results.
 class Chain {
     prop_var = 10;
     results = [];
@@ -27,11 +22,11 @@ class Chain {
         this.prop_var = prop_var;
     };
 
-    addPoint(x,y){ //Adds a new result to the end of the array
+    addPoint(x,y){
         this.results.push(new Params(x,y));
     }
 
-    state(){ //Returns the most recent point in the result. If it's an empty array, returns null (behavior handled below)
+    state(){
         if(this.results.length == 0){ //If this is the first iteration, send back null
             return null;
         } else { //If not, return the tail of the chain
@@ -46,8 +41,12 @@ class Chain {
 var chain_a = new Chain(20);
 var chain_b = new Chain(10);
 var chain_c = new Chain(5);
+var current_chain = chain_a;
 
-//Sleep function- not used, mostly for testing
+//Initialize local variables
+var x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+
+//Sleep function
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -72,26 +71,26 @@ function ellipse(context, cx, cy, rx, ry){
     context.stroke();
 }
 
-function next_chain(x) {//Couldn't find a library function for this, but it just cycles the chains. Not currently in use.
+//Add listeners to each panel
+function next_chain(x) {
     if (x==chain_a) return chain_b;
     else if (x==chain_b) return chain_c;
     else if (x==chain_c) return chain_a;
     else return null;
 }
-
-function prop(variance) { //Gaussian function. Returns a value from a Gaussian distribution with mean 0 and variance equal to the input parameter
+function prop(variance) {
     let u = 0, v = 0;
     while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
     while(v === 0) v = Math.random();
     return (Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )) * variance;
 };
 
-async function test_chain(chain){//Primary function. Runs one user trial of a given chain
+async function test_chain(chain){
+
         let old_params = chain.state();//Get the last point from the current chain
         let new_params = null;
         let side1 = null;
         let side2 = null;
-
         if (old_params == null) {//If it's empty (a new chain), generate uniformly random values for all parameters for both choices
             old_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
             new_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
@@ -103,7 +102,7 @@ async function test_chain(chain){//Primary function. Runs one user trial of a gi
                 new_params = new Params(old_params.x + prop(chain.prop_var), old_params.y + prop(chain.prop_var));
             }
         }
-        if (Math.random() > .5) {//Randomly assign the values to each of the two sides of the screen.
+        if (Math.random() > .5) {
             side1 = old_params;
             side2 = new_params;
         }
@@ -111,12 +110,9 @@ async function test_chain(chain){//Primary function. Runs one user trial of a gi
             side1 = new_params;
             side2 = old_params;
         }
-        //Draw the ovals from the given parameters
         ellipse(panel1, 350, 350, side1.x, side1.y);
         ellipse(panel2, 350, 350, side2.x, side2.y);
 
-
-        //Put listeners on the canvases
         let left_click = new Promise(function (resolve, reject) {
             c1.addEventListener('click', function (event) {
                 //console.log("Clicked Left!");
@@ -131,7 +127,8 @@ async function test_chain(chain){//Primary function. Runs one user trial of a gi
         });
 
         const promises = [left_click, right_click];
-        await Promise.any(promises).then(function (result) {//When one of the two clicks comes in, add the corresponding coordinates to the chain
+
+        await Promise.any(promises).then(function (result) {
             if (result == 'left') {
                 chain.addPoint(side1.x, side2.y);
                 //console.log("Point Added From Side 1 to "+chain.name+"!");
@@ -144,7 +141,7 @@ async function test_chain(chain){//Primary function. Runs one user trial of a gi
         });
 }
 
-(async () => { //Runs test_chain on each chain once each, then posts the results of each in the console.
+(async () => {
     while (true) {
         await test_chain(chain_a);
         await test_chain(chain_b);
