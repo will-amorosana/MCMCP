@@ -90,19 +90,28 @@ class Chain {
 }
 
 
+function end_run() {
+
+}
+
 class Main{
     chain_a; chain_b; chain_c;
     c1; c2; panel1; panel2;
+    side1; side2; current_chain;
     inputs = [];
-
+    iters;
 
 
     constructor(){
 
+
+
         //Initialize Chains
+        this.iters = 100;
         this.chain_a = new Chain(20);
         this.chain_b = new Chain(10);
         this.chain_c = new Chain(5);
+        this.current_chain = this.chain_a;
 
 
         //Get references for HTML elements
@@ -110,42 +119,69 @@ class Main{
         this.c2 = document.getElementById("canvas_2");
         this.panel1 = this.c1.getContext("2d");
         this.panel2 = this.c2.getContext("2d");
+
+        this.side1 = new Params(-1,-1, ParamTypes.EMPTY);
+        this.side2 = new Params(-1,-1, ParamTypes.EMPTY);
+
+        this.c1.addEventListener('click', this.process_input(false));
+        this.c2.addEventListener('click', this.process_input(true));
     }
-    left_click = new Promise(function (resolve, reject) {
-        this.c1.addEventListener('click', function (event) {
-            //console.log("Clicked Left!");
-            resolve('left');
-        }, {once:true});
-    });
-    right_click = new Promise(function (resolve, reject){
-        this.c2.addEventListener('click', function (event) {
-            //console.log("Clicked Right!");
-            resolve('right');
-        }, {once:true});
-    });
 
-    ellipse(context, cx, cy, rx, ry){
-        context.clearRect(0, 0, cx*2, cy*2);
-        context.save(); // save state
-        context.beginPath();
 
-        context.translate(cx-rx, cy-ry);
-        context.scale(rx, ry);
-        context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+    render(){
+        function ellipse(context, cx, cy, rx, ry){
+            context.clearRect(0, 0, cx*2, cy*2);
+            context.save(); // save state
+            context.beginPath();
 
-        context.restore(); // restore to original state
-        context.stroke();
+            context.translate(cx-rx, cy-ry);
+            context.scale(rx, ry);
+            context.arc(1, 1, 1, 0, 2 * Math.PI, false);
+
+            context.restore(); // restore to original state
+            context.stroke();
+        }
+        if (Math.random() > .5) {//Swap them half the time
+            let temp = this.side1;
+            this.side1 = this.side2;
+            this.side2 = temp;
+        }
+        ellipse(this.panel1, 350, 350, this.side1.x, this.side1.y);
+        ellipse(this.panel2, 350, 350, this.side2.x, this.side2.y);
     }
-    //
-    // next_chain(x) {
-    //     if (x==this.chain_a) return this.chain_b;
-    //     else if (x==this.chain_b) return this.chain_c;
-    //     else if (x==this.chain_c) return this.chain_a;
-    //     else return null;
-    // }
-    async test_chain(chain){
 
-        let old_params = chain.state();//Get the last point from the current chain
+    process_input(right){
+        let new_state = null;
+        if(right){
+            new_state  = this.side2;
+            this.inputs.push(1);
+        }else{
+            new_state = this.side1;
+            this.inputs.push(0);
+        }
+        this.current_chain.addPoint(new_state);
+        this.next_chain();
+    }
+
+
+    next_chain(){
+        if (this.current_chain==this.chain_a) this.current_chain = this.chain_b;
+        else if (this.current_chain==this.chain_b) this. current_chain = this.chain_c;
+        else if (this.current_chain==this.chain_c){
+            this.current_chain = this.chain_a;
+            this.iters--;
+
+        } else console.error("Something has gone horribly wrong");
+        if (this.iters = 0){
+            end_run();
+        }else{
+            this.prep_chain()
+        }
+
+    }
+
+    prep_chain(){
+        let old_params = this.current_chain.state();//Get the last point from the current chain
         let new_params = null;
         let side1 = null;
         let side2 = null;
@@ -153,49 +189,25 @@ class Main{
             old_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
             new_params = new Params(Math.floor(Math.random() * 350), Math.floor(Math.random() * 350));
         }
-        else { //If you did get a state, create a proposed state by modifying the old one by the proposal distribution TODO: ABSTRACT THE VECTOR
+        else { //If you did get a state, create a proposed state by modifying the old one by the proposal distribution
             new_params = old_params.prop(chain.prop_var);
             while (!new_params.isLegal()) { //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
                 //console.log("Illegal parameters! Auto-rejecting...")
-                chain.addPoint(old_params.auto_copy());
-                new_params = old_params.prop(chain.prop_var);
+                this.current_chain.addPoint(old_params.auto_copy());
+                new_params = old_params.prop(this.current_chain.prop_var);
             }
         }
-        if (Math.random() > .5) {
-            side1 = old_params;
-            side2 = new_params;
-        }
-        else {
-            side1 = new_params;
-            side2 = old_params;
-        }
-        this.ellipse(this.panel1, 350, 350, side1.x, side1.y);
-        this.ellipse(this.panel2, 350, 350, side2.x, side2.y);
+        this.side1 = old_params;
+        this.side2 = new_params;
 
-        const promises = [this.left_click, this.right_click];
-
-        const result = await Promise.allSettled(promises);
-        if (result == 'left') {
-            chain.addPoint(side1);
-            //console.log("Point Added From Side 1 to "+chain.name+"!");
-        } else if (result == 'right') {
-            chain.addPoint(side2);
-            //console.log("Point Added From Side 2 to "+chain.name+"!");
-        }
+        this.render();
     }
 
-    async new_run(id, iters, test_checkout){
-        for(let i = 0; i < iters; i++){
-            await this.test_chain(this.chain_a);
-            await this.test_chain(this.chain_b);
-            await this.test_chain(this.chain_c);
-            console.log("Run #"+ id + " has completed iteration #"+(i+1));
-        }
-    }
+
 }
 
 
-(async () => {
-    let main = new Main();
-    await main.new_run(217, 10, true);
-})();
+
+let main = new Main();
+main.iters= 20;
+main.prep_chain();
