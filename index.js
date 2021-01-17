@@ -209,5 +209,6 @@ class Main{
 
 
 let main = new Main();
-main.iters= 20;
+main.iters= 5;
 main.prep_chain();
+console.log("Done!")

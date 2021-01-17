@@ -4,8 +4,10 @@
   "description": "Final Project",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.html"
+    "dev": "parcel src/index.html",
+    "format": "prettier src/ --write"
   },
+  "private": true,
   "author": "Will Amorosana",
   "license": "ISC",
   "dependencies": {
@@ -20,5 +22,12 @@
     "last 3 opera versions",
     "last 3 ios_saf versions",
     "last 3 safari versions"
-  ]
+  ],
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
+  },
+  "prettier": {
+    "tabWidth": 4
+  }
 }
