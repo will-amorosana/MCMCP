@@ -60,6 +60,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="C:\Users\WDAmo\GitHub\MCMCP\node_modules\prettier" />
     <property name="ts.external.directory.path" value="C:\Users\WDAmo\GitHub\MCMCP\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -84,6 +85,9 @@
       <workItem from="1604594118158" duration="1222000" />
       <workItem from="1605013258924" duration="5034000" />
       <workItem from="1610560080591" duration="5069000" />
+      <workItem from="1610907467288" duration="28000" />
+      <workItem from="1610914082550" duration="440000" />
+      <workItem from="1611060528453" duration="4302000" />
     </task>
     <servers />
   </component>
@@ -111,10 +115,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1605018430536" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1601905318443">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1610907494840">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1601905318443" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1610907494840" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605015026722">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
