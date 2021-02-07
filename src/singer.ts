@@ -3,67 +3,7 @@
 //     return new Promise((resolve) => setTimeout(resolve, ms));
 // }
 
-//This is how coordinates are passed between methods. It's basically just a tuple that can check if it's beyond bounds [0,350].
-// const ParamTypes = Object.freeze({ USER_DEFINED: 1, EMPTY: 2, AUTO_REJECT: 3 });
-
-
-
-class Params {
-    x: number;
-    y: number;
-
-    constructor(x: number, y: number) {
-
-            this.x = x;
-            this.y = y;
-    }
-
-    auto_copy() {
-        let copy = JSON.parse(JSON.stringify(this));
-        return copy;
-    }
-
-    prop(variance: number) {
-        const x = this.x + this.box_mueller(variance);
-        const y = this.y + this.box_mueller(variance);
-        return new Params(x, y);
-    }
-
-    box_mueller(variance: number) {
-        let u = 0,
-            v = 0;
-        while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
-        while (v === 0) v = Math.random();
-        return (
-            Math.sqrt(-2.0 * Math.log(u)) *
-            Math.cos(2.0 * Math.PI * v) *
-            variance
-        );
-    }
-
-    isLegal() {
-        if (this.x < 0 || this.x > 350) return false;
-        if (this.y < 0 || this.y > 350) return false;
-        return true;
-    }
-}
-
-//A new result is added for each choice the user makes, and for each automatic rejection.
-class Result {
-    chosen: Params;
-    rejected: Params;
-    auto: boolean;
-
-    constructor(yes: Params, no: Params, auto_rejected: boolean) {
-        this.chosen = yes;
-        this.rejected = no;
-        this.auto = auto_rejected;
-    }
-
-    value(){
-        return this.chosen;3
-    }
-}
+import { Result, Params } from "./datatypes";
 
 //Chains hold their own proposal variance, their previous results, and their current run.
 class Chain {
@@ -83,7 +23,8 @@ class Chain {
         this.current_run.push(x);
     }
 
-    state() { //TODO: draw from DB
+    state() {
+        //TODO: draw from DB
         //Returns the most recent point in the current run. If it's an empty array, returns null (behavior handled below)
         if (this.current_run.length == 0) {
             //If this is the first iteration of the current run, check for previous runs
@@ -97,7 +38,9 @@ class Chain {
     update(ok: boolean) {
         if (ok) {
             //If it's all good, append the results and change the old_head.
-            this.old_head = this.current_run[this.current_run.length - 1].value();
+            this.old_head = this.current_run[
+                this.current_run.length - 1
+            ].value();
             this.results.push(...this.current_run);
             this.current_run = [];
         } else {
@@ -107,9 +50,7 @@ class Chain {
     }
 }
 
-
 class Main {
-
     chains: Chain[];
     c1: HTMLCanvasElement;
     c2: HTMLCanvasElement;
@@ -123,14 +64,16 @@ class Main {
     //Checkout prevention hyperparameters
     k: number;
     t: number;
+    seshID: String;
 
-    constructor(num_chains, iters, k, t, prop_var) {
+    constructor(num_chains, iters, k, t, prop_var, seshID: String) {
         //Initialize Chains
         this.iters = iters;
         this.k = k;
         this.t = t;
         this.chains = [];
-        for(let i = 0; i < num_chains; i++){
+        this.seshID = seshID;
+        for (let i = 0; i < num_chains; i++) {
             this.chains.push(new Chain(prop_var));
         }
         this.current_chain = this.chains[0];
@@ -144,7 +87,7 @@ class Main {
         this.side1 = null;
         this.side2 = null;
 
-        this.inputs = []
+        this.inputs = [];
 
         this.c1.addEventListener("click", () => {
             this.process_input(false);
@@ -153,25 +96,26 @@ class Main {
             this.process_input(true);
         });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.code == 'KeyA'){
+        document.addEventListener("keydown", (e) => {
+            if (e.code == "KeyA") {
                 this.process_input(false);
-            } else if (e.code == 'KeyD'){
+            } else if (e.code == "KeyD") {
                 this.process_input(true);
             }
         });
-
     }
 
     next_chain() {
-        if (this.current_chain == this.chains[this.chains.length-1]){
+        if (this.current_chain == this.chains[this.chains.length - 1]) {
             this.current_chain = this.chains[0];
             this.iters--;
-        }else{
-            let next_index = this.chains.findIndex((chain)=> chain == this.current_chain)+1;
+        } else {
+            let next_index =
+                this.chains.findIndex((chain) => chain == this.current_chain) +
+                1;
             this.current_chain = this.chains[next_index];
         }
-        if ((this.iters == 0)) {
+        if (this.iters == 0) {
             this.end_run();
         } else {
             this.prep_chain();
@@ -185,11 +129,11 @@ class Main {
             //If it's empty (a new chain), generate uniformly random values for all parameters for both choices
             old_params = new Params(
                 Math.floor(Math.random() * 350),
-                Math.floor(Math.random() * 350),
+                Math.floor(Math.random() * 350)
             );
             new_params = new Params(
                 Math.floor(Math.random() * 350),
-                Math.floor(Math.random() * 350),
+                Math.floor(Math.random() * 350)
             );
         } else {
             //If you did get a state, create a proposed state by modifying the old one by the proposal distribution
@@ -197,7 +141,9 @@ class Main {
             while (!new_params.isLegal()) {
                 //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
                 //console.log("Illegal parameters! Auto-rejecting...")
-                this.current_chain.addPoint(new Result(old_params.auto_copy(), new_params.auto_copy(), true));
+                this.current_chain.addPoint(
+                    new Result(old_params.auto_copy(), new_params.auto_copy(), true, this.seshID)
+                );
                 new_params = old_params.prop(this.current_chain.prop_var);
             }
         }
@@ -233,20 +179,20 @@ class Main {
     process_input(right: boolean) {
         let new_state: Result = null;
         if (right) {
-            new_state = new Result(this.side2, this.side1, false);
+            new_state = new Result(this.side2, this.side1, false, this.seshID);
             this.inputs.push(true);
         } else {
-            new_state = new Result(this.side1, this.side2, false);
+            new_state = new Result(this.side1, this.side2, false, this.seshID);
             this.inputs.push(false);
         }
         this.current_chain.addPoint(new_state);
         this.next_chain();
     }
 
-    end_run(){
-        let run_ok: boolean = this.checkout_eval(8, .8);
-        console.log("Done! Run OK: "+run_ok);
-        for(let i = 0; i < this.chains.length; i++){
+    end_run() {
+        let run_ok: boolean = this.checkout_eval(this.k, this.t);
+        console.log("Done! Run OK: " + run_ok);
+        for (let i = 0; i < this.chains.length; i++) {
             this.chains[i].update(run_ok);
         }
     }
@@ -258,29 +204,29 @@ class Main {
         let right_count = 0;
         let alt_count = 0;
         let last_val: boolean = null;
-        for(let i: number = 0; i < this.inputs.length; i++){
+        for (let i: number = 0; i < this.inputs.length; i++) {
             this.inputs[i] ? right_count++ : left_count++;
-            if(this.inputs[i]==last_val){
+            if (this.inputs[i] == last_val) {
                 alt_count++;
                 same_len++;
-                alt_len= 0;
-                if(same_len >= k) return false;
-            }else{
+                alt_len = 0;
+                if (same_len >= k) return false;
+            } else {
                 alt_len++;
                 same_len = 0;
                 last_val = !last_val;
-                if(alt_len >= k) return false;
+                if (alt_len >= k) return false;
             }
         }
-        if(t <= Math.max(left_count, right_count, alt_count)/this.inputs.length) return false;
+        if (
+            t <=
+            Math.max(left_count, right_count, alt_count) / this.inputs.length
+        )
+            return false;
 
         return true;
-
-
     }
-
-
 }
 
-let main = new Main(5, 5, 10, .8, 5);
+let main = new Main(3, 5, 10, 0.8, 10, "Testy McTestFace");
 main.prep_chain();
