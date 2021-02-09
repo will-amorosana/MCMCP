@@ -17,7 +17,7 @@ if(send){
     };
     axios.post("http://localhost:3000/checkin/", output)
         .then(function (response) {
-        console.log(response);
+        console.log(response.data);
     }).catch(function(error) {
         console.log(error)
     });

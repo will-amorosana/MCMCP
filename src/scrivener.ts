@@ -1,9 +1,10 @@
-import {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS} from "./datatypes";
+import {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS, session_out, session_in} from "./datatypes";
 
 const express = require("express");
 var cors = require('cors');
 const app = express();
 app.use(cors());
+app.use(express.json())
 const port = 3000;
 
 
@@ -91,17 +92,25 @@ app.get("/checkout", (req, res) => {
             }
         }
         let heads:Params[] = choice.checkout(seshID);
-        let output = {id: seshID, lin_id: choice.id, font: choice.instr_font, question: choice.question, heads: heads};
+        let output: session_out =
+            {
+                id: seshID.toString(),
+                lineage_ID: choice.id,
+                font: choice.instr_font,
+                question: choice.question,
+                heads: heads
+            };
         res.json(output);
     }else{
         res.send("Unavailable!")
     }
 });
 
-app.post("/checkin", (req, res) => {//TODO: Fix this. It recognizes a connection but I can't seem to get the data out of it. Maybe just use a GET?
-    console.log("Received data back!")
-    console.log(res);
-    res.send("Received by server!");
+app.post("/checkin", (req, res) => {
+    console.log("Received data back!");
+    let input: session_in = req.body;
+    console.log(input);
+    res.send(req.body);
 });
 
 app.listen(port, () => {

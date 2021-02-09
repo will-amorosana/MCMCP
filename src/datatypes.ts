@@ -75,4 +75,19 @@ enum question_word {
 
 const NUMBER_OF_CHAINS: number = 3;
 
-export {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS};
+interface session_out { //Session object used in check-out process
+    id: String;
+    font: instruction_font;
+    question: question_word;
+    heads: Params[];
+    lineage_ID: String;
+}
+
+interface session_in {
+    lineage_ID: String;
+    id: String;
+    accept: boolean;
+    chains: Result[][];
+}
+
+export {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS, session_out, session_in};

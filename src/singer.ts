@@ -3,7 +3,7 @@
 //     return new Promise((resolve) => setTimeout(resolve, ms));
 // }
 
-import {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS} from "./datatypes";
+import {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS, session_out, session_in} from "./datatypes";
 
 const axios = require('axios');
 //CONSTANTS
@@ -42,20 +42,7 @@ class Chain {
 
 }//TODO: Just make this a damn list of Results
 
-interface session_out { //Session object used in check-out process
-    id: String;
-    font: instruction_font;
-    question: question_word;
-    heads: Params[];
-    lin_ID: String;
-}
 
-interface session_in {
-    id: String;
-    lin_ID: String;
-    accept: boolean;
-    chains: Result[][];
-}
 
 class Main {
     chains: Chain[];
@@ -81,7 +68,7 @@ class Main {
     font_of_choice: instruction_font;
     question: question_word;
     seshID: String;
-    lin_ID: String;
+    lineage_ID: String;
     heads: Params[];
 
     constructor() {
@@ -126,7 +113,7 @@ class Main {
             this.font_of_choice = session.font;
             this.question = session.question;
             this.heads = session.heads;
-            this.lin_ID = session.lin_ID;
+            this.lineage_ID = session.lineage_ID;
             return true;
         }
     }
@@ -137,10 +124,11 @@ class Main {
         }
         console.log(results.length);
         let output: session_in= {
+            lineage_ID: this.lineage_ID,
             accept: accept,
             chains: results,
             id: this.seshID,
-            lin_ID: this.lin_ID
+
         }
         const request = await axios.post(SCRIVENER_URL+"/checkin", output);
     }
@@ -239,7 +227,7 @@ class Main {
         console.log("Done! Run OK: " + run_ok);
         this.send_results(run_ok)
             .then(function() {
-            console.log("Successfully retrieved session!");
+            console.log("Successfully checked session back in!");
             });
         //TODO: Show the user out and thank them for their time.
     }
