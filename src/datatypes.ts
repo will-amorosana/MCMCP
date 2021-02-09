@@ -56,4 +56,23 @@ class Result {
     }
 }
 
-export {Result, Params};
+enum lineage_status {
+    New,
+    Free,
+    Busy,
+    Converged,
+}
+
+enum instruction_font {
+    OpenSans,
+    PlayfairDisplay
+}
+
+enum question_word {
+    professional,
+    readable
+}
+
+const NUMBER_OF_CHAINS: number = 3;
+
+export {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS};

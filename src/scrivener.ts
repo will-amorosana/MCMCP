@@ -1,38 +1,28 @@
-import { Result, Params } from "./datatypes";
+import {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS} from "./datatypes";
 
 const express = require("express");
-
+var cors = require('cors');
 const app = express();
+app.use(cors());
 const port = 3000;
 
 
 
-enum lineage_status {
-    New,
-    Free,
-    Busy,
-    Converged,
-}
-enum instruction_font {
-    OpenSans,
-    PlayfairDisplay
-}
 
-enum question_word {
-    professional,
-    readable
-}
+
+
 
 class Lineage {
     public id: String;
     //0 = New, 1 = Free, 2 = Busy, 3= Converged
     private status: lineage_status;
     private chains: Result[][];
-    private seshID: String;
+    private seshID: Date;
     public instr_font: instruction_font;
     public question: question_word;
 
-    constructor(font: number, q: number, num_chains: number = 9) {
+    constructor(id: number, font: number, q: number, num_chains: number = 9) {
+        this.id = "Lineage "+id;
         this.chains = [];
         for (let i = 0; i < num_chains; i++) {
             let x: Result[] = [];
@@ -44,10 +34,10 @@ class Lineage {
     }
 
     available() {
-        return (this.status== lineage_status.New || this.status == lineage_status.Free);
+        return (this.status <= 1);
     }
 
-    checkout(sesh: String) {
+    checkout(sesh: Date) {
         let heads: Params[] = [];
         if (this.status == lineage_status.New) {
             this.status = lineage_status.Busy;
@@ -67,9 +57,9 @@ class Lineage {
 }
 let lineages: Lineage[] = [];
 function init(){
-    for (let i:number = 0; i < 3; i++){
-        for(let j:number = 0; j<3; j++){
-            lineages.push(new Lineage(i,j,9))
+    for (let i:number = 0; i < 2; i++){
+        for(let j:number = 0; j<2; j++){
+            lineages.push(new Lineage((i*2)+j,0, 0, NUMBER_OF_CHAINS))
         }
     }
 }
@@ -90,26 +80,28 @@ app.get("/checkout", (req, res) => {
         }
     }
     if (available) {
-        let seshID = new Date().toString(); //TODO: Maybe hash this??
+        let seshID = new Date();
         let choice:Lineage = null;
         while (true) {
-            let i: number = Math.floor(Math.random() * 9);
+            let i: number = Math.floor(Math.random() * (NUMBER_OF_CHAINS+1));
+            console.log(i);
             if (lineages[i].available()) {
                 choice = lineages[i];
                 break;
             }
         }
         let heads:Params[] = choice.checkout(seshID);
-        let output = {id: seshID, font: choice.instr_font, question: choice.question, heads: heads};
+        let output = {id: seshID, lin_id: choice.id, font: choice.instr_font, question: choice.question, heads: heads};
         res.json(output);
     }else{
         res.send("Unavailable!")
     }
 });
 
-app.post("/checkin/:seshID", (req, res) => {
-   console.log(req);
-
+app.post("/checkin", (req, res) => {//TODO: Fix this. It recognizes a connection but I can't seem to get the data out of it. Maybe just use a GET?
+    console.log("Received data back!")
+    console.log(res);
+    res.send("Received by server!");
 });
 
 app.listen(port, () => {
