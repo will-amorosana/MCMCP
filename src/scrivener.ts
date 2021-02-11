@@ -1,4 +1,13 @@
-import {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS, session_out, session_in} from "./datatypes";
+import {
+    instruction_font,
+    lineage_status,
+    NUMBER_OF_CHAINS,
+    Params,
+    question_word,
+    Result,
+    session_in,
+    session_out
+} from "./datatypes";
 
 const express = require("express");
 var cors = require('cors');
@@ -18,7 +27,7 @@ class Lineage {
     //0 = New, 1 = Free, 2 = Busy, 3= Converged
     private status: lineage_status;
     private chains: Result[][];
-    private seshID: Date;
+    public seshID: Date;
     public instr_font: instruction_font;
     public question: question_word;
 
@@ -54,7 +63,18 @@ class Lineage {
         return heads;
     }
 
-    checkin(sesh: number) {}
+    checkin(seshID: String, accept: boolean, chains: Result[][]) {
+        if(this.seshID.toString() == seshID){
+            if(accept){
+                for(let i: number = 0; i < chains.length; i++){
+                    this.chains[i].concat(chains[i]);
+                }
+            }
+            this.status = lineage_status.Free;
+        }else{
+            console.log("Incorrect session ID! Lineage remains checked out.")
+        }
+    }
 }
 let lineages: Lineage[] = [];
 function init(){
@@ -107,9 +127,15 @@ app.get("/checkout", (req, res) => {
 });
 
 app.post("/checkin", (req, res) => {
-    console.log("Received data back!");
+    console.log("Received data back:");
     let input: session_in = req.body;
     console.log(input);
+    for(let i: number = 0; i < lineages.length; i++){
+        if(lineages[i].id == input.lineage_ID){
+
+            break;
+        }
+    }
     res.send(req.body);
 });
 
