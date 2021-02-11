@@ -45,23 +45,12 @@ class Params {
 }
 
 //A new result is added for each choice the user makes, and for each automatic rejection.
-class Result {
-    chosen: Params;
+interface Result {
     rejected: Params;
     auto: boolean;
     author: String;
+    chosen: Params;
 
-    constructor(
-        yes: Params,
-        no: Params,
-        auto_rejected: boolean = false,
-        session: String
-    ) {
-        this.chosen = yes;
-        this.rejected = no;
-        this.auto = auto_rejected;
-        this.author = session;
-    }
 }
 
 enum lineage_status {

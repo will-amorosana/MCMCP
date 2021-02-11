@@ -8,6 +8,7 @@ import {
     session_in,
     session_out,
 } from "./datatypes";
+import {json} from "express";
 
 const fs = require("fs");
 const express = require("express");
@@ -18,10 +19,11 @@ app.use(express.json());
 const port = 3000;
 
 function save() {
-    const dateHash = Date.now().toString(36);
+    const dateHash: String = Date.now().toString(36);
+    console.log("Saving file...");
     fs.writeFile(
-        "/backup/" + dateHash + ".json",
-        JSON.stringify(lineages),
+        "./backup/" + dateHash + ".json",
+        JSON.stringify(lineages, null, 4),
         function (err) {
             if (err) {
                 console.log(err);
@@ -30,18 +32,23 @@ function save() {
     );
 }
 
+async function load(hash){
+    const filename: string = "./backup/"+hash+".json";
+    const lineages = JSON.parse(fs.readFileSync(filename));
+    console.log(lineages);
+}
+
 class Lineage {
-    public id: String;
+    public id: string;
     //0 = New, 1 = Free, 2 = Busy, 3= Converged
     private status: lineage_status;
-    private chains: Result[][];
+    private chains: Result[][] =[];
     public seshID: Date;
     public instr_font: instruction_font;
     public question: question_word;
 
     constructor(id: number, font: number, q: number, num_chains: number = 9) {
         this.id = "Lineage " + id;
-        this.chains = [];
         for (let i = 0; i < num_chains; i++) {
             let x: Result[] = [];
             this.chains.push(x);
@@ -96,15 +103,17 @@ class Lineage {
 }
 
 let lineages: Lineage[] = [];
-function init() {
-    for (let i: number = 0; i < 2; i++) {
-        for (let j: number = 0; j < 2; j++) {
-            lineages.push(new Lineage(i * 2 + j, 0, 0, NUMBER_OF_CHAINS));
-        }
-    }
+async function init() {
+    // for (let i: number = 0; i < 2; i++) {
+    //     for (let j: number = 0; j < 2; j++) {
+    //         lineages.push(new Lineage(i * 2 + j, 0, 0, NUMBER_OF_CHAINS));
+    //     }
+    // }
+    await load("kl17bxdd");
+    console.log("Howdy!");
 }
 
-init(); //TODO: Remove this
+init().then();
 
 app.get("/checkout", (req, res) => {
     let available: boolean = false;
@@ -144,9 +153,9 @@ app.get("/checkout", (req, res) => {
 });
 
 app.post("/checkin", (req, res) => {
-    console.log("Received data back:");
+    //console.log("Received data back:");
     let success: boolean;
-    console.log(JSON.stringify(req.body, null, 2));
+    //console.log(JSON.stringify(req.body, null, 2));
     let input: session_in = req.body;
     //console.log(JSON.stringify(input.chains, null, 2));
     for (let i: number = 0; i < lineages.length; i++) {
@@ -155,6 +164,7 @@ app.post("/checkin", (req, res) => {
             break;
         }
     }
+    save();
     res.send(success);
 });
 

@@ -1,0 +1,1319 @@
+[
+    {
+        "chains": [
+            [],
+            [],
+            []
+        ],
+        "id": "Lineage 0",
+        "instr_font": 0,
+        "question": 0,
+        "status": 2,
+        "seshID": "2021-02-11T18:33:33.157Z"
+    },
+    {
+        "chains": [
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 327,
+                        "y": 116
+                    },
+                    "rejected": {
+                        "x": 123,
+                        "y": 167
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 327,
+                        "y": 116
+                    },
+                    "rejected": {
+                        "x": 318.9450392930477,
+                        "y": 114.87105594339191
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 331.0754858152628,
+                        "y": 122.6785369737786
+                    },
+                    "rejected": {
+                        "x": 327,
+                        "y": 116
+                    }
+                }
+            ],
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 259,
+                        "y": 98
+                    },
+                    "rejected": {
+                        "x": 28,
+                        "y": 177
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 258.9249830920415,
+                        "y": 73.18425262077578
+                    },
+                    "rejected": {
+                        "x": 259,
+                        "y": 98
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 258.9249830920415,
+                        "y": 73.18425262077578
+                    },
+                    "rejected": {
+                        "x": 265.9615429517999,
+                        "y": 69.17068398004884
+                    }
+                }
+            ],
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 185,
+                        "y": 238
+                    },
+                    "rejected": {
+                        "x": 24,
+                        "y": 249
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 184.37725618101945,
+                        "y": 239.05366395167403
+                    },
+                    "rejected": {
+                        "x": 185,
+                        "y": 238
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:24 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 193.7562766457357,
+                        "y": 240.9469292644783
+                    },
+                    "rejected": {
+                        "x": 184.37725618101945,
+                        "y": 239.05366395167403
+                    }
+                }
+            ]
+        ],
+        "id": "Lineage 1",
+        "instr_font": 0,
+        "question": 0,
+        "status": 1,
+        "seshID": null
+    },
+    {
+        "chains": [
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 61,
+                        "y": 179
+                    },
+                    "rejected": {
+                        "x": 146,
+                        "y": 252
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 61,
+                        "y": 179
+                    },
+                    "rejected": {
+                        "x": 65.6439854819869,
+                        "y": 182.67640992527893
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 61,
+                        "y": 179
+                    },
+                    "rejected": {
+                        "x": 79.4940939729309,
+                        "y": 176.3583626834264
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 61,
+                        "y": 179
+                    },
+                    "rejected": {
+                        "x": 53.658696431857415,
+                        "y": 175.89397330541266
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 58.02500984927509,
+                        "y": 187.48074051924314
+                    },
+                    "rejected": {
+                        "x": 61,
+                        "y": 179
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 48.33334650529554,
+                        "y": 178.58100859201275
+                    },
+                    "rejected": {
+                        "x": 58.02500984927509,
+                        "y": 187.48074051924314
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 51.455027442471916,
+                        "y": 184.08913508209127
+                    },
+                    "rejected": {
+                        "x": 48.33334650529554,
+                        "y": 178.58100859201275
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 44.459445466173705,
+                        "y": 186.39415528262955
+                    },
+                    "rejected": {
+                        "x": 51.455027442471916,
+                        "y": 184.08913508209127
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 44.459445466173705,
+                        "y": 186.39415528262955
+                    },
+                    "rejected": {
+                        "x": 31.801882998738815,
+                        "y": 202.69753125749264
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 44.459445466173705,
+                        "y": 186.39415528262955
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 66.45421320826833,
+                        "y": 181.94199008983543
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 68.46551515802636,
+                        "y": 215.31554456598334
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 45.87055270134419,
+                        "y": 197.07077011409314
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 83.91564471970275,
+                        "y": 209.73706363623992
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 65.05857874539865,
+                        "y": 202.88310546054424
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 75.36735678823217,
+                        "y": 219.56216580946924
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    },
+                    "rejected": {
+                        "x": 54.723557787923475,
+                        "y": 188.37500383866245
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 64.38465224575894,
+                        "y": 194.75332444470624
+                    },
+                    "rejected": {
+                        "x": 59.471530450968615,
+                        "y": 205.56672851933493
+                    }
+                }
+            ],
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 13,
+                        "y": 282
+                    },
+                    "rejected": {
+                        "x": 16,
+                        "y": 171
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 24.599518979417024,
+                        "y": 306.54363067314364
+                    },
+                    "rejected": {
+                        "x": 13,
+                        "y": 282
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 24.599518979417024,
+                        "y": 306.54363067314364
+                    },
+                    "rejected": {
+                        "x": 10.73029525891699,
+                        "y": 296.1512538149488
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 24.599518979417024,
+                        "y": 306.54363067314364
+                    },
+                    "rejected": {
+                        "x": 31.477114707347106,
+                        "y": 308.402595512299
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 24.599518979417024,
+                        "y": 306.54363067314364
+                    },
+                    "rejected": {
+                        "x": 20.106185217220368,
+                        "y": 319.47854579692563
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 25.674453967853555,
+                        "y": 303.13961804026496
+                    },
+                    "rejected": {
+                        "x": 24.599518979417024,
+                        "y": 306.54363067314364
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 25.674453967853555,
+                        "y": 303.13961804026496
+                    },
+                    "rejected": {
+                        "x": 10.02326748437701,
+                        "y": 313.49456057448856
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 25.674453967853555,
+                        "y": 303.13961804026496
+                    },
+                    "rejected": {
+                        "x": 36.56806271705277,
+                        "y": 308.3028033614831
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 25.674453967853555,
+                        "y": 303.13961804026496
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 31.218353005058255,
+                        "y": 291.4778226636949
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 36.804903444176055,
+                        "y": 294.9652127046223
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 25.491449061286122,
+                        "y": 297.1317645482456
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 39.53080746231854,
+                        "y": 315.2605596044791
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 42.206294247077096,
+                        "y": 288.31917142256134
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 38.70725972423219,
+                        "y": 304.01117350647297
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    },
+                    "rejected": {
+                        "x": 37.93520837346624,
+                        "y": 293.9568097740622
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 31.72856436388372,
+                        "y": 296.7420505349981
+                    },
+                    "rejected": {
+                        "x": 38.44459164233021,
+                        "y": 298.00504450746337
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 35.98555908686184,
+                        "y": 298.9642868696281
+                    },
+                    "rejected": {
+                        "x": 31.72856436388372,
+                        "y": 296.7420505349981
+                    }
+                }
+            ],
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 328,
+                        "y": 135
+                    },
+                    "rejected": {
+                        "x": 346,
+                        "y": 321
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 328,
+                        "y": 135
+                    },
+                    "rejected": {
+                        "x": 335.11755290500093,
+                        "y": 130.16455213097422
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 315.33459133892984,
+                        "y": 128.76291689550987
+                    },
+                    "rejected": {
+                        "x": 328,
+                        "y": 135
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 323.1757244754193,
+                        "y": 132.46683544855549
+                    },
+                    "rejected": {
+                        "x": 315.33459133892984,
+                        "y": 128.76291689550987
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 323.1757244754193,
+                        "y": 132.46683544855549
+                    },
+                    "rejected": {
+                        "x": 320.77828862455976,
+                        "y": 115.55291786854136
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:16 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 327.57453670468794,
+                        "y": 131.37454821093434
+                    },
+                    "rejected": {
+                        "x": 323.1757244754193,
+                        "y": 132.46683544855549
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 316.70564387401294,
+                        "y": 131.99893973168633
+                    },
+                    "rejected": {
+                        "x": 327.57453670468794,
+                        "y": 131.37454821093434
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 316.70564387401294,
+                        "y": 131.99893973168633
+                    },
+                    "rejected": {
+                        "x": 316.8746210007226,
+                        "y": 124.23260953923884
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:20 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 316.70564387401294,
+                        "y": 131.99893973168633
+                    },
+                    "rejected": {
+                        "x": 298.1869634869579,
+                        "y": 130.56668744277405
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 316.70564387401294,
+                        "y": 131.99893973168633
+                    },
+                    "rejected": {
+                        "x": 312.5881600683754,
+                        "y": 130.7803384534062
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 326.20107897319076,
+                        "y": 123.38599105677069
+                    },
+                    "rejected": {
+                        "x": 316.70564387401294,
+                        "y": 131.99893973168633
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:29 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 326.20107897319076,
+                        "y": 123.38599105677069
+                    },
+                    "rejected": {
+                        "x": 319.4248305345678,
+                        "y": 131.6357598003543
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 335.3606252510119,
+                        "y": 116.3106283306098
+                    },
+                    "rejected": {
+                        "x": 326.20107897319076,
+                        "y": 123.38599105677069
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 323.89830162425415,
+                        "y": 113.79450478757686
+                    },
+                    "rejected": {
+                        "x": 335.3606252510119,
+                        "y": 116.3106283306098
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:42 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 323.89830162425415,
+                        "y": 113.79450478757686
+                    },
+                    "rejected": {
+                        "x": 319.8919427066614,
+                        "y": 87.27845819303799
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 338.5029442667044,
+                        "y": 105.4616206029416
+                    },
+                    "rejected": {
+                        "x": 323.89830162425415,
+                        "y": 113.79450478757686
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 338.5029442667044,
+                        "y": 105.4616206029416
+                    },
+                    "rejected": {
+                        "x": 365.5995348589074,
+                        "y": 115.6312464742046
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 337.36636473830936,
+                        "y": 108.45693942492007
+                    },
+                    "rejected": {
+                        "x": 338.5029442667044,
+                        "y": 105.4616206029416
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:46 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 334.1892742758717,
+                        "y": 112.657014901856
+                    },
+                    "rejected": {
+                        "x": 337.36636473830936,
+                        "y": 108.45693942492007
+                    }
+                }
+            ]
+        ],
+        "id": "Lineage 2",
+        "instr_font": 0,
+        "question": 0,
+        "status": 1,
+        "seshID": null
+    },
+    {
+        "chains": [
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 134,
+                        "y": 242
+                    },
+                    "rejected": {
+                        "x": 296,
+                        "y": 87
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 134,
+                        "y": 242
+                    },
+                    "rejected": {
+                        "x": 124.39057001902704,
+                        "y": 225.8786123719576
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 143.87968318826728,
+                        "y": 249.12882701754097
+                    },
+                    "rejected": {
+                        "x": 134,
+                        "y": 242
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 152.69962097270806,
+                        "y": 235.10150210063023
+                    },
+                    "rejected": {
+                        "x": 143.87968318826728,
+                        "y": 249.12882701754097
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 146.9823290382779,
+                        "y": 238.28052398670675
+                    },
+                    "rejected": {
+                        "x": 152.69962097270806,
+                        "y": 235.10150210063023
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 146.9823290382779,
+                        "y": 238.28052398670675
+                    },
+                    "rejected": {
+                        "x": 165.39776270713554,
+                        "y": 216.90420328468804
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 146.9823290382779,
+                        "y": 238.28052398670675
+                    },
+                    "rejected": {
+                        "x": 140.45517833658275,
+                        "y": 240.4173624963517
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 146.9823290382779,
+                        "y": 238.28052398670675
+                    },
+                    "rejected": {
+                        "x": 152.26072401556615,
+                        "y": 231.67291579648827
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 137.52801316369877,
+                        "y": 236.7588132523022
+                    },
+                    "rejected": {
+                        "x": 146.9823290382779,
+                        "y": 238.28052398670675
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 137.52801316369877,
+                        "y": 236.7588132523022
+                    },
+                    "rejected": {
+                        "x": 142.63515941545012,
+                        "y": 237.39614237013768
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 137.52801316369877,
+                        "y": 236.7588132523022
+                    },
+                    "rejected": {
+                        "x": 132.97077171662352,
+                        "y": 242.99970890370855
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 138.56285069529966,
+                        "y": 241.70746482817623
+                    },
+                    "rejected": {
+                        "x": 137.52801316369877,
+                        "y": 236.7588132523022
+                    }
+                }
+            ],
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 190,
+                        "y": 245
+                    },
+                    "rejected": {
+                        "x": 99,
+                        "y": 5
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 179.58433003342984,
+                        "y": 264.6355178956681
+                    },
+                    "rejected": {
+                        "x": 190,
+                        "y": 245
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 184.1711650748662,
+                        "y": 253.92973952302557
+                    },
+                    "rejected": {
+                        "x": 179.58433003342984,
+                        "y": 264.6355178956681
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 184.1711650748662,
+                        "y": 253.92973952302557
+                    },
+                    "rejected": {
+                        "x": 189.7137692774142,
+                        "y": 254.82309660576172
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 184.1711650748662,
+                        "y": 253.92973952302557
+                    },
+                    "rejected": {
+                        "x": 190.41425404613497,
+                        "y": 245.71738082975514
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 201.60802064422546,
+                        "y": 277.1904383310254
+                    },
+                    "rejected": {
+                        "x": 184.1711650748662,
+                        "y": 253.92973952302557
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 194.74481717933187,
+                        "y": 298.2591449269944
+                    },
+                    "rejected": {
+                        "x": 201.60802064422546,
+                        "y": 277.1904383310254
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 194.74481717933187,
+                        "y": 298.2591449269944
+                    },
+                    "rejected": {
+                        "x": 192.81572621576314,
+                        "y": 293.8436873805481
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 210.69643082407498,
+                        "y": 309.0178320400597
+                    },
+                    "rejected": {
+                        "x": 194.74481717933187,
+                        "y": 298.2591449269944
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 210.80496247063843,
+                        "y": 299.4860598959786
+                    },
+                    "rejected": {
+                        "x": 210.69643082407498,
+                        "y": 309.0178320400597
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 210.80496247063843,
+                        "y": 299.4860598959786
+                    },
+                    "rejected": {
+                        "x": 219.24930710068634,
+                        "y": 302.9150910324115
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 210.80496247063843,
+                        "y": 299.4860598959786
+                    },
+                    "rejected": {
+                        "x": 215.7396928529452,
+                        "y": 302.5146936347794
+                    }
+                }
+            ],
+            [
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 6,
+                        "y": 2
+                    },
+                    "rejected": {
+                        "x": 19,
+                        "y": 133
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 9.684054146271192,
+                        "y": 13.382278418846052
+                    },
+                    "rejected": {
+                        "x": 6,
+                        "y": 2
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 9.684054146271192,
+                        "y": 13.382278418846052
+                    },
+                    "rejected": {
+                        "x": -8.609595779277763,
+                        "y": 20.570857741367703
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 9.684054146271192,
+                        "y": 13.382278418846052
+                    },
+                    "rejected": {
+                        "x": 27.260663305619417,
+                        "y": -6.001288269720067
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 9.684054146271192,
+                        "y": 13.382278418846052
+                    },
+                    "rejected": {
+                        "x": 8.546355223669066,
+                        "y": -0.7207372375625827
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:01 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 3.2789223116542576,
+                        "y": 15.960465361329932
+                    },
+                    "rejected": {
+                        "x": 9.684054146271192,
+                        "y": 13.382278418846052
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 3.2789223116542576,
+                        "y": 15.960465361329932
+                    },
+                    "rejected": {
+                        "x": 9.130735612738135,
+                        "y": 27.284821703656768
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 7.507928209020629,
+                        "y": 8.15544638567089
+                    },
+                    "rejected": {
+                        "x": 3.2789223116542576,
+                        "y": 15.960465361329932
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:05 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 1.4638939734380543,
+                        "y": 8.048967253092917
+                    },
+                    "rejected": {
+                        "x": 7.507928209020629,
+                        "y": 8.15544638567089
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 1.4638939734380543,
+                        "y": 8.048967253092917
+                    },
+                    "rejected": {
+                        "x": -5.90297807398672,
+                        "y": 17.963169659284368
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 1.4638939734380543,
+                        "y": 8.048967253092917
+                    },
+                    "rejected": {
+                        "x": 7.93145737179232,
+                        "y": 6.288252580481721
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 6.325749897669626,
+                        "y": 4.572843934002256
+                    },
+                    "rejected": {
+                        "x": 1.4638939734380543,
+                        "y": 8.048967253092917
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:33:57 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 11.68375362256328,
+                        "y": 5.296159067752494
+                    },
+                    "rejected": {
+                        "x": 6.325749897669626,
+                        "y": 4.572843934002256
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 22.29667698315955,
+                        "y": 0.16977403388641576
+                    },
+                    "rejected": {
+                        "x": 11.68375362256328,
+                        "y": 5.296159067752494
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 22.29667698315955,
+                        "y": 0.16977403388641576
+                    },
+                    "rejected": {
+                        "x": 32.442031607776585,
+                        "y": 6.068041738974772
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 22.29667698315955,
+                        "y": 0.16977403388641576
+                    },
+                    "rejected": {
+                        "x": 35.85319127947582,
+                        "y": -2.8324495286396676
+                    }
+                },
+                {
+                    "author": "Thu Feb 11 2021 18:34:12 GMT+0000 (Greenwich Mean Time)",
+                    "auto": false,
+                    "chosen": {
+                        "x": 22.29667698315955,
+                        "y": 0.16977403388641576
+                    },
+                    "rejected": {
+                        "x": 12.339872445784145,
+                        "y": 4.8739823569159695
+                    }
+                }
+            ]
+        ],
+        "id": "Lineage 3",
+        "instr_font": 0,
+        "question": 0,
+        "status": 1,
+        "seshID": null
+    }
+]

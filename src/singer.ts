@@ -59,10 +59,9 @@ async function init() {
     }
 
     //Gather data from server
-    retrieve().then(function (ok) {
-        if (ok) console.log("Successfully retrieved session!");
-        else server_full();
-    });
+    let retrieved: boolean = await retrieve();
+    if (retrieved) console.log("Successfully retrieved session!");
+    else server_full();
 
     c1.addEventListener("click", async () => {
         await process_input(false);
@@ -91,13 +90,25 @@ async function retrieve() {
         seshID = session.id;
         font_of_choice = session.font;
         question = session.question;
-        heads = session.heads;
+        heads = fix_heads(session.heads);
         lineage_ID = session.lineage_ID;
         console.log("Lineage: "+ lineage_ID);
-        console.log("Heads: "+JSON.stringify(heads));
+        console.log(heads);
         return true;
     }
 }
+
+function fix_heads(heads){
+    if(heads){
+        let out_heads: Params[] = [];
+        for (let i: number = 0; i < NUMBER_OF_CHAINS; i++){
+            out_heads.push(new Params(heads[i].x,heads[i].y));
+        }
+        return out_heads;
+    }
+    return heads;
+}
+
 async function send_results(accept: boolean) {
     let output: session_in = {
         lineage_ID: lineage_ID,
@@ -127,7 +138,7 @@ async function next_chain() {
 function state() {
     if (chains[current_chain].length == 0) {
         //If this is the first iteration of the current run, check the heads from  last session. Should return null otherwise.
-        console.log(heads);
+        //console.log(heads[0] instanceof Params);
         return (heads!=null ? heads[current_chain].auto_copy() : null);
     } else {
         //If it's not the first step in the run, return the head of the current run
@@ -146,19 +157,13 @@ async function prep_chain() {
         console.log("old_params: " + JSON.stringify(old_params));
         new_params = old_params.prop(PROPOSAL_VARIANCE);
         while (!new_params.isLegal()) {
-            chains[current_chain].push(
-                new Result(
-                    old_params.auto_copy(),
-                    new_params.auto_copy(),
-                    true,
-                    seshID
-                )
-            );
+            chains[current_chain].push({author: seshID, auto: false, chosen: old_params.auto_copy(), rejected: new_params.auto_copy()});
             new_params = old_params.prop(PROPOSAL_VARIANCE);
         }
     }
     side1 = old_params;
     side2 = new_params;
+
 
     await render();
 }
@@ -190,10 +195,10 @@ async function process_input(right: boolean) {
     if (iters >= 0) {
         let new_state: Result;
         if (right) {
-            new_state = new Result(side2, side1, false, seshID);
+            new_state ={author: seshID, auto: false, chosen: side2, rejected: side1}
             inputs.push(true);
         } else {
-            new_state = new Result(side1, side2, false, seshID);
+            new_state ={author: seshID, auto: false, chosen: side1, rejected: side2}
             inputs.push(false);
         }
         chains[current_chain].push(new_state);
