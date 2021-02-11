@@ -8,7 +8,7 @@ class Params {
     }
 
     auto_copy() {
-        let copy = JSON.parse(JSON.stringify(this));
+        let copy = new Params(this.x, this.y);
         return copy;
     }
 
@@ -61,10 +61,6 @@ class Result {
         this.rejected = no;
         this.auto = auto_rejected;
         this.author = session;
-    }
-
-    value() {
-        return this.chosen;
     }
 }
 

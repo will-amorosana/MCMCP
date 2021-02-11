@@ -146,6 +146,7 @@ app.get("/checkout", (req, res) => {
 app.post("/checkin", (req, res) => {
     console.log("Received data back:");
     let success: boolean;
+    console.log(JSON.stringify(req.body, null, 2));
     let input: session_in = req.body;
     //console.log(JSON.stringify(input.chains, null, 2));
     for (let i: number = 0; i < lineages.length; i++) {

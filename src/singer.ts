@@ -12,8 +12,8 @@ import {
     session_out,
     session_in,
 } from "./datatypes";
-
 const axios = require("axios");
+
 //CONSTANTS
 const SCRIVENER_URL: String = "http://localhost:3000";
 const ITERATIONS: number = 3; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
@@ -92,8 +92,9 @@ async function retrieve() {
         font_of_choice = session.font;
         question = session.question;
         heads = session.heads;
-        console.log(JSON.stringify(heads));
         lineage_ID = session.lineage_ID;
+        console.log("Lineage: "+ lineage_ID);
+        console.log("Heads: "+JSON.stringify(heads));
         return true;
     }
 }
@@ -126,34 +127,25 @@ async function next_chain() {
 function state() {
     if (chains[current_chain].length == 0) {
         //If this is the first iteration of the current run, check the heads from  last session. Should return null otherwise.
-        return (heads!=null? heads[current_chain] : null);
+        console.log(heads);
+        return (heads!=null ? heads[current_chain].auto_copy() : null);
     } else {
         //If it's not the first step in the run, return the head of the current run
-        return chains[current_chain][chains[current_chain].length - 1].value();
+        return chains[current_chain][chains[current_chain].length - 1].chosen;
     }
 }
 
 async function prep_chain() {
     let old_params: Params = state(); //Get the last point from the current chain
-    let new_params: Params = null;
+    let new_params: Params;
     if (old_params == null) {
-        //Should happen at the start of every run
-        if (heads != null) {
-            //If drawing from a non-new lineage
-            old_params = heads[current_chain];
-            console.log("Drawn from heads: " + JSON.stringify(old_params));
-        } else {
-            old_params = Params.new_uniform();
-            new_params = Params.new_uniform();
-        }
-    } //Should only not occur if starting a new lineage, and the two Params are independent.
-    if (new_params == null) {
+        old_params = Params.new_uniform();
+        new_params = Params.new_uniform();
+    }else {
         //If you did get a state, create a proposed state by modifying the old one by the proposal distribution
         console.log("old_params: " + JSON.stringify(old_params));
         new_params = old_params.prop(PROPOSAL_VARIANCE);
         while (!new_params.isLegal()) {
-            //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
-            //console.log("Illegal parameters! Auto-rejecting...")
             chains[current_chain].push(
                 new Result(
                     old_params.auto_copy(),
@@ -186,7 +178,7 @@ async function render() {
     }
     if (Math.random() > 0.5) {
         //Swap them half the time
-        let temp = side1;
+        let temp: Params = side1;
         side1 = side2;
         side2 = temp;
     }
@@ -255,4 +247,4 @@ async function run_singer() {
     await init();
 }
 
-run_singer().then(() => console.log("Done!"));
+run_singer().then();
