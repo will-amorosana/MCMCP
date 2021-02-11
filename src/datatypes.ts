@@ -90,4 +90,4 @@ interface session_in {
     chains: Result[][];
 }
 
-export {Result, Params, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS, session_out, session_in};
+export {Params, Result, lineage_status, instruction_font, question_word, NUMBER_OF_CHAINS, session_out, session_in};

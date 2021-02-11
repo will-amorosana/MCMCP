@@ -10,7 +10,7 @@ const axios = require('axios');
 const SCRIVENER_URL: String = 'http://localhost:3000';
 const ITERATIONS: number = 3; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
 const INPUT_STREAK_THRESHOLD: number = 20 //probability of 20 straight lefts/rights/alts ~= 1 in a million
-const INPUT_SHARE_THRESHOLD: number = .55 //Probability of number of rights being above 54% = 1 in a million
+const INPUT_SHARE_THRESHOLD: number = .9 //Probability of number of rights being above 54% = 1 in a million TODO: Revert to .55
 const PROPOSAL_VARIANCE: number = 10;//For fonts, starting around .1 is a good start for most values.
 
 //Chains hold their own proposal variance and their current run's results.
@@ -113,6 +113,7 @@ class Main {
             this.font_of_choice = session.font;
             this.question = session.question;
             this.heads = session.heads;
+            console.log(JSON.stringify(this.heads));
             this.lineage_ID = session.lineage_ID;
             return true;
         }
@@ -122,7 +123,6 @@ class Main {
         for(let i = 0; i < this.chains.length; i++){
             results.push(this.chains[i].current_run);
         }
-        console.log(results.length);
         let output: session_in= {
             lineage_ID: this.lineage_ID,
             accept: accept,
@@ -155,6 +155,7 @@ class Main {
         if (old_params == null) {//Should happen at the start of every run
             if(this.heads != null){//If drawing from a non-new lineage
                 old_params = this.heads[this.current_chain];
+                console.log("Drawn from heads: "+JSON.stringify(old_params));
             }else{ //If drawing from a new lineage TODO: Abstract this
                 old_params = new Params(
                     Math.floor(Math.random() * 350),
@@ -168,6 +169,7 @@ class Main {
         } //Should only not occur if starting a new lineage, and the two Params are independent.
         if(new_params == null){
             //If you did get a state, create a proposed state by modifying the old one by the proposal distribution
+            console.log("old_params: "+JSON.stringify(old_params));
             new_params = old_params.prop(this.chains[this.current_chain].prop_var);
             while (!new_params.isLegal()) {
                 //If you generate out-of-bounds parameters, auto-reject and retry until you get legal ones
@@ -271,5 +273,9 @@ function server_full() { //TODO: Gets called when client receives "Unavailable" 
     console.log("Server is busy! Unable to progress")
 }
 
-let main = new Main();
-main.prep_chain();
+async function run_singer(){
+    let main = await new Main();
+    await main.prep_chain();
+}
+
+run_singer().then(r => console.log("Done!"));

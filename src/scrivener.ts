@@ -9,14 +9,23 @@ import {
     session_out
 } from "./datatypes";
 
+
+const fs = require('fs');
 const express = require("express");
-var cors = require('cors');
+const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json())
 const port = 3000;
 
-
+function save(){
+    const dateHash = Date.now().toString(36);
+    fs.writeFile("/backup/"+dateHash+".json", JSON.stringify(lineages), function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
 
 
 
@@ -49,14 +58,15 @@ class Lineage {
 
     checkout(sesh: Date) {
         let heads: Params[] = [];
-        if (this.status == lineage_status.New) {
+        if (this.status == lineage_status.New || this.chains[0].length==0) {
+            console.log("New/empty lineage- telling client to generate new parameters...")
             this.status = lineage_status.Busy;
             this.seshID = sesh;
             return null; //Handled on client side
         }
         for (let i = 0; i < this.chains.length; i++) {
             let head: Result = this.chains[i][this.chains[i].length - 1];
-            heads.push(head.value());
+            heads.push(head.chosen);
         }
         this.status = lineage_status.Busy;
         this.seshID = sesh;
@@ -64,18 +74,26 @@ class Lineage {
     }
 
     checkin(seshID: String, accept: boolean, chains: Result[][]) {
-        if(this.seshID.toString() == seshID){
+        if(this.seshID != null && this.seshID.toString() == seshID){
+            console.log("Matched Session ID!")
             if(accept){
-                for(let i: number = 0; i < chains.length; i++){
-                    this.chains[i].concat(chains[i]);
+                console.log("Accept confirmed!")
+                for(let i: number = 0; i < this.chains.length; i++){
+                    this.chains[i] = this.chains[i].concat(chains[i]);
                 }
+            }else{
+                console.log("Rejected- user was 'checked out'.")
             }
             this.status = lineage_status.Free;
+            this.seshID = null;
+            return true;
         }else{
-            console.log("Incorrect session ID! Lineage remains checked out.")
+            console.log("Incorrect session ID! Lineage remains unchanged")
+            return false;
         }
     }
 }
+
 let lineages: Lineage[] = [];
 function init(){
     for (let i:number = 0; i < 2; i++){
@@ -86,17 +104,17 @@ function init(){
 }
 
 
-init();
+init();//TODO: Remove this
 
 
 app.get("/checkout", (req, res) => {
     let available: boolean = false;
     //if (req.params["pass"]!="regdar") res.send("Unauthenticated!");//Confirm it's coming from FontSinger with a passphrase
-    console.log("Started new checkout request!");
+    console.log("Started new checkout request...");
     for (let i = 0; i < lineages.length; i++) {
         if (lineages[i].available()) {
             available = true;
-            console.log("At least one lineage is available!")
+            //console.log("At least one lineage is available!")
             break;
         }
     }
@@ -105,13 +123,13 @@ app.get("/checkout", (req, res) => {
         let choice:Lineage = null;
         while (true) {
             let i: number = Math.floor(Math.random() * (NUMBER_OF_CHAINS+1));
-            console.log(i);
             if (lineages[i].available()) {
                 choice = lineages[i];
                 break;
             }
         }
         let heads:Params[] = choice.checkout(seshID);
+        console.log("Checking out from "+choice.id+"...")
         let output: session_out =
             {
                 id: seshID.toString(),
@@ -121,6 +139,7 @@ app.get("/checkout", (req, res) => {
                 heads: heads
             };
         res.json(output);
+        console.log("Sent data to client!");
     }else{
         res.send("Unavailable!")
     }
@@ -128,15 +147,21 @@ app.get("/checkout", (req, res) => {
 
 app.post("/checkin", (req, res) => {
     console.log("Received data back:");
+    let success: boolean;
     let input: session_in = req.body;
-    console.log(input);
+    //console.log(JSON.stringify(input.chains, null, 2));
     for(let i: number = 0; i < lineages.length; i++){
         if(lineages[i].id == input.lineage_ID){
-
+            success = lineages[i].checkin(input.id, input.accept, input.chains);
             break;
         }
     }
-    res.send(req.body);
+    res.send(success);
+});
+
+app.post("/save/", (req, res) => {
+   save();
+   res.send("Successfully saved data!")
 });
 
 app.listen(port, () => {
