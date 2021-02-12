@@ -1,6 +1,15 @@
 const axios = require("axios");
 send = false;
-if (send) {
+let output = {
+    accept: false,
+    chains: null,
+    id: null,
+    lin_ID: null,
+};
+
+
+
+function get(){
     axios
         .get("http://localhost:3000/checkout/")
         .then(function (response) {
@@ -9,13 +18,9 @@ if (send) {
         .catch(function (error) {
             console.log(error);
         });
-} else {
-    let output = {
-        accept: false,
-        chains: null,
-        id: null,
-        lin_ID: null,
-    };
+}
+
+function post(){
     axios
         .post("http://localhost:3000/checkin/", output)
         .then(function (response) {
@@ -25,3 +30,5 @@ if (send) {
             console.log(error);
         });
 }
+
+setInterval(get, 10000);
