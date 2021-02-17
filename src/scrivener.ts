@@ -8,10 +8,8 @@ import {
     session_in,
     session_out,
 } from "./datatypes";
-import {json, raw} from "express";
-
-
 import Timeout = NodeJS.Timeout;
+
 const fs = require("fs");
 const path = require('path');
 const express = require("express");
@@ -20,6 +18,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const port = 3000;
+
+//Output setup
+let converter= require('json-2-csv');
+
 
 function save(setAsNewest: boolean = true) {
     const dateHash: String = Date.now().toString(36);
@@ -49,12 +51,16 @@ async function loadLatest(){
 
 async function load(hash: string, ){
     const filename: string = "./backup/"+hash+".json";
-    let raw_data = JSON.parse(fs.readFileSync(filename));
-    if(raw_data==null) load_scratch()
-    else for(let i: number = 0; i < raw_data.length; i++){
-        let new_lineage = new Lineage(raw_data[i].id, raw_data[i].instr_font, raw_data[i].question, NUMBER_OF_CHAINS);
-        new_lineage.reform(raw_data[i].chains);
-        lineages.push(new_lineage);
+    if(fs.existsSync(filename)){
+        let raw_data = JSON.parse(fs.readFileSync(filename));
+        lineages = [];
+        for(let i: number = 0; i < raw_data.length; i++){
+            let new_lineage = new Lineage(raw_data[i].id.slice(-1), raw_data[i].instr_font, raw_data[i].question, NUMBER_OF_CHAINS, raw_data[i].status);
+            new_lineage.reform(raw_data[i].chains);
+            lineages.push(new_lineage);
+        }
+    }else{
+        load_scratch();
     }
 }
 
@@ -100,12 +106,8 @@ async function maintain(){
         let minutes: number = 0;//If it's been more than 3 hours since it was checked out, check it back in.
         if(lineages[i].seshID) minutes = (currentDate.getTime() - lineages[i].seshID.getTime()) / 60000;
         if(minutes >180) lineages[i].checkin(lineages[i].seshID.toString(), false, null);
-        save();
     }
-}
-
-async function output(){
-    
+    save();
 }
 
 class Lineage {
@@ -117,7 +119,7 @@ class Lineage {
     public instr_font: instruction_font;
     public question: question_word;
 
-    constructor(id: number, font: number, q: number, num_chains: number) {
+    constructor(id: number, font: number, q: number, num_chains: number, status: lineage_status = lineage_status.New) {
         this.id = "Lineage " + id;
         for (let i = 0; i < num_chains; i++) {
             let x: Result[] = [];
@@ -125,7 +127,7 @@ class Lineage {
         }
         this.instr_font = font;
         this.question = q;
-        this.status = lineage_status.New;
+        this.status = status;
     }
 
     available() {
@@ -144,18 +146,18 @@ class Lineage {
         }
         for (let i = 0; i < this.chains.length; i++) {
             let head: Result = this.chains[i][this.chains[i].length - 1];
-            heads.push(head.chosen);
+            heads.push(Params.reform(head.chosen));
         }
         this.status = lineage_status.Busy;
         this.seshID = sesh;
+        console.log(heads);
         return heads;
     }
 
     checkin(seshID: String, accept: boolean, chains: Result[][]) {
         if (this.seshID != null && this.seshID.toString() == seshID) {
-            console.log("Matched Session ID!");
             if (accept) {
-                console.log("Accept confirmed!");
+                console.log(this.id +" checked back in!");
                 for (let i: number = 0; i < this.chains.length; i++) {
                     this.chains[i] = this.chains[i].concat(chains[i]);
                 }
@@ -166,23 +168,32 @@ class Lineage {
             this.seshID = null;
             return true;
         } else {
-            console.log("Incorrect session ID! Lineage remains unchanged");
+            console.log("Session ID did not match.");
             return false;
         }
     }
 
     reform(chains: Result[][]){
-        for (let i: number = 0; i < this.chains.length; i++) {
-            this.chains[i] = this.chains[i].concat(chains[i]);
+        this.chains = [];
+        for (let i: number = 0; i < NUMBER_OF_CHAINS; i++) {
+            let new_chain: Result[]  = [];
+            chains[i].forEach((result)=>{
+                const new_Res: Result ={
+                    author: result.author,
+                    auto: result.auto,
+                    chosen: Params.reform(result.chosen),
+                    rejected: Params.reform(result.rejected)
+                }
+                new_chain.push(new_Res);
+            })
+            this.chains.push(new_chain);
         }
     }
 }
 
-
 app.get("/checkout", (req, res) => {
     let available: boolean = false;
     //if (req.params["pass"]!="regdar") res.send("Unauthenticated!");//Confirm it's coming from FontSinger with a passphrase
-    console.log("Started new checkout request...");
     for (let i = 0; i < lineages.length; i++) {
         if (lineages[i].available()) {
             available = true;
@@ -210,11 +221,12 @@ app.get("/checkout", (req, res) => {
             heads: heads,
         };
         res.json(output);
-        console.log("Sent data to client!");
+        console.log("Done!");
     } else {
         res.send("Unavailable!");
     }
 });
+
 
 app.post("/checkin", (req, res) => {
     //console.log("Received data back:");
@@ -228,7 +240,6 @@ app.post("/checkin", (req, res) => {
             break;
         }
     }
-    save(true);
     res.send(success);
 });
 
@@ -237,16 +248,43 @@ app.post("/save/", (req, res) => {
     res.send("Successfully saved data!");
 });
 
+app.post("/output/", () => {
+    output().then();
+})
+
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Scrivener is now listening at http://localhost:${port}`);
 });
+
+async function output(){
+    const filePath: String = "./output/"+Date.now().toString(36);
+    if (!fs.existsSync(filePath)){
+        fs.mkdirSync(filePath);
+        for(let i: number = 0; i < lineages.length; i++){
+            fs.mkdirSync(filePath+"/"+i.toString())
+            for(let j: number = 0; j < NUMBER_OF_CHAINS; j++){
+                try {
+                    let csvToSave: String = "data:text/csv;charset=utf-8,";
+                    csvToSave = await converter.json2csvAsync(lineages[i].chains[j], {expandArrayObjects: true, unwindArrays: true})
+                    fs.writeFileSync(filePath+"/"+i.toString()+"/"+j.toString()+".csv", csvToSave);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        }
+        console.log("Finished exporting to "+filePath);
+    }else{
+        return ("Output of that name already exists!");
+    }
+}
 
 let lineages: Lineage[];
 let cancelValue: Timeout;
 async function init() {
     lineages= [];
     await loadLatest();
-    cancelValue = setInterval(maintain, 3600000);
+    console.log(lineages[0].available());
+    cancelValue = setInterval(maintain, 60000);
 }
 
 init().then();

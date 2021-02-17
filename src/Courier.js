@@ -31,4 +31,16 @@ function post(){
         });
 }
 
-setInterval(get, 10000);
+function save_output(){
+    axios
+        .post("http://localhost:3000/save/")
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+//setInterval(output, 10000);
+save_output();

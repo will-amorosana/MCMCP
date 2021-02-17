@@ -252,4 +252,14 @@ async function run_singer() {
     await init();
 }
 
+async function fetchHtmlAsText(url) {
+    return await (await fetch(url)).text();
+}
+
+// this is your `load_home() function`
+async function loadHome() {
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = await fetchHtmlAsText("./.html");
+}
+
 run_singer().then();

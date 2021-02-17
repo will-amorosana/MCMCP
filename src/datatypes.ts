@@ -15,13 +15,17 @@ class Params {
     prop(variance: number) {
         const x = this.x + Params.box_mueller(variance);
         const y = this.y + Params.box_mueller(variance);
-        return new Params(x, y);
+        return new Params(Math.round((x + Number.EPSILON) * 100) / 100, Math.round((y + Number.EPSILON) * 100) / 100);
     }
 
     isLegal() {
         if (this.x < 0 || this.x > 350) return false;
         if (this.y < 0 || this.y > 350) return false;
         return true;
+    }
+
+    static reform({x, y}){
+        return new Params(x,y);
     }
 
     static box_mueller(variance: number) {
