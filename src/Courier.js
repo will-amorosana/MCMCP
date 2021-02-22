@@ -31,7 +31,7 @@ function post() {
 
 function save_output() {
     axios
-        .post("http://localhost:3000/save/")
+        .post("http://localhost:3000/output/")
         .then(function (response) {
             console.log(response.data);
         })

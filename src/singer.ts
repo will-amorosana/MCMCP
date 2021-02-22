@@ -3,15 +3,8 @@
 //     return new Promise((resolve) => setTimeout(resolve, ms));
 // }
 
-import {
-    Result,
-    Params,
-    instruction_font,
-    question_word,
-    NUMBER_OF_CHAINS,
-    session_out,
-    session_in,
-} from "./datatypes";
+import {instruction_font, NUMBER_OF_CHAINS, Params, question_word, Result, session_in, session_out,} from "./datatypes";
+
 const axios = require("axios");
 
 //CONSTANTS
@@ -58,13 +51,11 @@ let heads: Params[];
 
 //PRE-RUN METHODS
 
-async function run_singer() {
-    await init();
-}
-
 async function init() {
-    load_piscf();
-
+    let consent_button = document.getElementById("consent_confirmed");
+    consent_button.addEventListener("click", () => {
+        load_instructions();
+    });
     //Initialize Chains
     chains = [];
     for (let i = 0; i < NUMBER_OF_CHAINS; i++) {
@@ -73,24 +64,38 @@ async function init() {
 
     //Gather data from server
     let retrieved: boolean = await retrieve();
-    if (retrieved) console.log("Successfully retrieved session!");
+    if (retrieved){
+        console.log("Successfully retrieved session!");
+        let q_word = (question == question_word.professional ? "professional" : "readable");
+        document.getElementById("criteria").innerText = "Which font do you think is more "+q_word+"?"
+        c1.addEventListener("click", async () => {
+            await process_input(false);
+        });
+        c2.addEventListener("click", async () => {
+            await process_input(true);
+        });
+
+        document.addEventListener("keydown", async (e) => {
+            if (e.code == "KeyA") {
+                await process_input(false);
+            } else if (e.code == "KeyD") {
+                await process_input(true);
+            }
+        });
+        await prep_chain();
+    }
     else server_full();
 
-    c1.addEventListener("click", async () => {
-        await process_input(false);
-    });
-    c2.addEventListener("click", async () => {
-        await process_input(true);
-    });
+}
 
-    document.addEventListener("keydown", async (e) => {
-        if (e.code == "KeyA") {
-            await process_input(false);
-        } else if (e.code == "KeyD") {
-            await process_input(true);
-        }
+function load_instructions() {
+    console.log("Loading Instructions...");
+    text_box.innerHTML = "";
+    text_box.insertAdjacentHTML("afterbegin", pages[0]);
+    let start_button = document.getElementById("Start");
+    start_button.addEventListener("click", () => {
+        load_experiment();
     });
-    await prep_chain();
 }
 
 async function retrieve() {
@@ -123,6 +128,12 @@ function fix_heads(heads) {
 }
 
 //IN-RUN METHODS
+
+function load_experiment() {
+    console.log("Forms complete! Going to experiment...");
+    text_box.innerHTML = "";
+    document.getElementById("experiment").removeAttribute("hidden");
+}
 
 async function next_chain() {
     if (current_chain < chains.length - 1) {
@@ -226,6 +237,17 @@ async function process_input(right: boolean) {
 
 //POST-RUN METHODS
 
+function end_run() {
+    let run_ok: boolean = checkout_eval(k, t);
+    console.log("Done! Run OK: " + run_ok);
+    send_results(run_ok).then(function () {
+        console.log("Successfully checked session back in!");
+    });
+    console.log("Taking the user out...");
+    text_box.insertAdjacentHTML("afterbegin", pages[1]);
+    document.getElementById("experiment").hidden = true;
+}
+
 function checkout_eval(k: number, t: number) {
     //If a user input k or more contiguous inputs that were:
     // - the same input
@@ -266,18 +288,10 @@ async function send_results(accept: boolean) {
     console.log(response.status);
 }
 
-function end_run() {
-    let run_ok: boolean = checkout_eval(k, t);
-    console.log("Done! Run OK: " + run_ok);
-    send_results(run_ok).then(function () {
-        console.log("Successfully checked session back in!");
-    });
-    console.log("Taking the user out...");
-    text_box.insertAdjacentHTML("afterbegin", pages[1]);
-    document.getElementById("experiment").hidden = true;
-}
-
 function server_full() {
+    text_box.innerText = "";
+    document.getElementById("experiment").removeAttribute("hidden");
+    document.getElementById("criteria").innerText = "We're sorry, but the server appears to be busy. Please revisit this site in an hour.";
     console.log("Server is busy! Unable to progress");
 }
 
@@ -285,29 +299,4 @@ function server_full() {
 
 
 
-function load_piscf() {
-    console.log("Loading PIS and Consent Form...");
-    let consent_button = document.getElementById("consent_confirmed");
-    consent_button.addEventListener("click", () => {
-        load_instructions();
-    });
-}
-
-function load_instructions() {
-    console.log("Loading Instructions...");
-    text_box.innerHTML = "";
-    text_box.insertAdjacentHTML("afterbegin", pages[0]);
-    let start_button = document.getElementById("Start");
-    start_button.addEventListener("click", () => {
-        load_experiment();
-    });
-}
-
-function load_experiment() {
-    console.log("Forms complete! Going to experiment...");
-    text_box.innerHTML = "";
-    let experiment = document.getElementById("experiment");
-    experiment.removeAttribute("hidden");
-}
-
-run_singer().then();
+init().then();

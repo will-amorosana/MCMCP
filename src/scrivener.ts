@@ -45,12 +45,17 @@ function load_scratch() {
 }
 
 async function loadLatest() {
-    let latestHash: string = fs.readFileSync("./current_backup.txt");
-    if (latestHash == "") load_scratch();
-    else await load(latestHash);
+    let latestHash: string = "";
+    try{
+        latestHash = fs.readFileSync("./current_backup.txt")
+    }catch(e){
+        await load_scratch();
+    }
+    await load(latestHash);
 }
 
 async function load(hash: string) {
+    if(hash=="")return;
     const filename: string = "./backup/" + hash + ".json";
     if (fs.existsSync(filename)) {
         let raw_data = JSON.parse(fs.readFileSync(filename));
@@ -312,8 +317,8 @@ let cancelValue: Timeout;
 async function init() {
     lineages = [];
     await loadLatest();
-    console.log(lineages[0].available());
-    cancelValue = setInterval(maintain, 60000);
+    let minutes = 10;
+    cancelValue = setInterval(maintain, minutes * 60000);
 }
 
 init().then();
