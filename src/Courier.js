@@ -7,9 +7,7 @@ let output = {
     lin_ID: null,
 };
 
-
-
-function get(){
+function get() {
     axios
         .get("http://localhost:3000/checkout/")
         .then(function (response) {
@@ -20,7 +18,7 @@ function get(){
         });
 }
 
-function post(){
+function post() {
     axios
         .post("http://localhost:3000/checkin/", output)
         .then(function (response) {
@@ -31,7 +29,7 @@ function post(){
         });
 }
 
-function save_output(){
+function save_output() {
     axios
         .post("http://localhost:3000/save/")
         .then(function (response) {

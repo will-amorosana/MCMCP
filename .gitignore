@@ -117,3 +117,7 @@ dist
 
 .idea/
 dist/
+*.json
+*.json
+backup/kl9sd99z.json
+*.json

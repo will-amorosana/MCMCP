@@ -15,7 +15,10 @@ class Params {
     prop(variance: number) {
         const x = this.x + Params.box_mueller(variance);
         const y = this.y + Params.box_mueller(variance);
-        return new Params(Math.round((x + Number.EPSILON) * 100) / 100, Math.round((y + Number.EPSILON) * 100) / 100);
+        return new Params(
+            Math.round((x + Number.EPSILON) * 100) / 100,
+            Math.round((y + Number.EPSILON) * 100) / 100
+        );
     }
 
     isLegal() {
@@ -24,8 +27,8 @@ class Params {
         return true;
     }
 
-    static reform({x, y}){
-        return new Params(x,y);
+    static reform({ x, y }) {
+        return new Params(x, y);
     }
 
     static box_mueller(variance: number) {
@@ -54,7 +57,6 @@ interface Result {
     auto: boolean;
     author: String;
     chosen: Params;
-
 }
 
 enum lineage_status {
