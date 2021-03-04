@@ -49,8 +49,8 @@ class Params {
 
     static new_uniform() {
         return new Params(
-            Math.floor(Math.random() * 350),
-            Math.floor(Math.random() * 350)
+            Math.floor(Math.random() * 20),
+            Math.floor(Math.random() * 20)
         );
     }
 }
