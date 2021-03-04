@@ -2,13 +2,13 @@ class Params {
     x: number;
     y: number;
 
-    out() {
-        return [this.x, this.y];
-    }
-
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
+    }
+
+    out() {
+        return [this.x, this.y];
     }
 
     auto_copy() {

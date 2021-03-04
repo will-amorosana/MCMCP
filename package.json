@@ -8,7 +8,8 @@
     "scrivener": "ts-node src/scrivener.ts",
     "smith": "node src/fontsmith.js",
     "courier": "node src/Courier.js",
-    "format": "prettier src/ --write"
+    "format": "prettier src/ --write",
+    "chekhov": "ts-node src/chekhov.ts"
   },
   "private": true,
   "author": "Will Amorosana",

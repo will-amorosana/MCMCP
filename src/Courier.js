@@ -40,5 +40,16 @@ function save_output() {
         });
 }
 
+function get() {
+    axios
+        .get("http://localhost:3000/checkout/")
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 //setInterval(output, 10000);
 save_output();

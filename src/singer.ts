@@ -12,9 +12,9 @@ const axios = require("axios");
 
 //CONSTANTS
 const SCRIVENER_URL: String = "http://localhost:3000";
-const ITERATIONS: number = 3; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
+const ITERATIONS: number = 10; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
 const INPUT_STREAK_THRESHOLD: number = 20; //probability of 20 straight lefts/rights/alts ~= 1 in a million
-const INPUT_SHARE_THRESHOLD: number = 0.65; //Probability of number of rights being above 54% = 1 in a million
+const INPUT_SHARE_THRESHOLD: number = 0.9; //Probability of number of rights being above 54% = 1 in a million//TODO: Revert to .65
 const PROPOSAL_VARIANCE: number = 10; //For fonts, starting around .1 is a good start for most values.
 const pages = [
     '<header>\n                <div class="page-header-icon undefined">\n                    <span class="icon">📜</span>\n                </div>\n                <h1 class="page-title">Instructions</h1>\n            </header>\n            <div class="page-body">\n                <p id="4a710f91-a4d3-4a93-b0cf-ab5c6d8a3cd3" class="">\n                    In this study, we&#x27;ll be asking you to make a series of\n                    choices between fonts. You will be presented with two fonts\n                    at a time, and should choose one based on the criterion at\n                    the top of the page. You can either click on the text you\n                    prefer to make your choice, or press the &#x27;A&#x27; or\n                    &#x27;D&#x27; keys to choose left or right, respectively.' +

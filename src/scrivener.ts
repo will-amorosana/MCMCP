@@ -9,6 +9,7 @@ import {
     session_out,
 } from "./datatypes";
 import Timeout = NodeJS.Timeout;
+
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
@@ -38,7 +39,7 @@ function load_scratch() {
     console.log("Loading from scratch! Maybe your file wasn't found...");
     for (let i: number = 0; i < 2; i++) {
         for (let j: number = 0; j < 2; j++) {
-            lineages.push(new Lineage(i * 2 + j, i, j, NUMBER_OF_CHAINS));
+            lineages.push(new Lineage(i * 2 + j, i, j, NUMBER_OF_CHAINS, lineage_status.New));
         }
     }
 }
@@ -67,7 +68,7 @@ async function load(hash: string) {
                 NUMBER_OF_CHAINS,
                 raw_data[i].status
             );
-            new_lineage.reform(raw_data[i].chains);
+            new_lineage.chains = reform_chains(raw_data[i].chains);
             lineages.push(new_lineage);
         }
     } else {
@@ -179,27 +180,35 @@ class Lineage {
         }
     }
 
-    reform(chains: Result[][]) {
-        this.chains = [];
-        for (let i: number = 0; i < NUMBER_OF_CHAINS; i++) {
-            let new_chain: Result[] = [];
-            chains[i].forEach((result) => {
-                const new_Res: Result = {
-                    author: result.author,
-                    auto: result.auto,
-                    chosen: Params.reform(result.chosen),
-                    rejected: Params.reform(result.rejected),
-                };
-                new_chain.push(new_Res);
-            });
-            this.chains.push(new_chain);
-        }
-    }
+
 
     end() {
         this.status = lineage_status.Converged;
         this.seshID = null;
     }
+
+    free_up(){
+        this.status = lineage_status.Free;
+        this.seshID = null;
+    }
+}
+
+function reform_chains(chains: Result[][]) {
+    let out_chains: Result[][] = [];
+    for (let i: number = 0; i < NUMBER_OF_CHAINS; i++) {
+        let new_chain: Result[] = [];
+        chains[i].forEach((result) => {
+            const new_Res: Result = {
+                author: result.author,
+                auto: result.auto,
+                chosen: Params.reform(result.chosen),
+                rejected: Params.reform(result.rejected),
+            };
+            new_chain.push(new_Res);
+        });
+        out_chains.push(new_chain);
+    }
+    return out_chains
 }
 
 function lineage_length(chains: Result[][]) {
@@ -211,14 +220,15 @@ function lineage_length(chains: Result[][]) {
 }
 
 function converged(chains: Result[][]) {
+    if (lineage_length(chains)<10) return 0;
     //Returns 0 if unconverged (>1.2 for at least one param, 1 if partially converged(<1.2 for all, >1.1 for some), or 2 if fully converged (<1.1 for all)
-    let m: number = NUMBER_OF_CHAINS; //The number of chains
-    let n: number = lineage_length(chains); //The (average) chain length, N
-    let p: number = 2; //number of parameters
+    const m: number = NUMBER_OF_CHAINS; //The number of chains
+    const n: number = lineage_length(chains); //The (average) chain length, N
+    const p: number = 2; //number of parameters
     let uni_psrfs: number[] = []; //The effective output
 
     for (let j = 0; j < p; j++) {
-        //For each parameter,
+        //console.log("For each parameter...")
         let chain_avgs: number[] = []; //Track the mean value
         let chain_stdevs: number[] = []; //and std deviation of each chain.
         let total_sum: number = 0;
@@ -255,6 +265,7 @@ function converged(chains: Result[][]) {
         let v_hat: number = ((n - 1) / n) * w + ((m + 1) / (m * n)) * b;
         uni_psrfs.push(v_hat / w);
     }
+    
     console.log("PSRF values for each parameter: " + uni_psrfs.toString());
     let perfect: boolean = true;
     for (let i = 0; i < p; i++) {
@@ -268,38 +279,24 @@ async function maintain() {
     const currentDate: Date = new Date();
     for (let i: number = 0; i < lineages.length; i++) {
         //For each lineage...
+        //console.log("Maintaining Lineage "+i+"...")
 
         let minutes: number = 0; //If it's been more than 3 hours since it was checked out, check it back in.
         if (lineages[i].seshID)
             minutes =
                 (currentDate.getTime() - lineages[i].seshID.getTime()) / 60000;
-        if (minutes > 180)
-            lineages[i].checkin(lineages[i].seshID.toString(), false, null);
+        if (minutes > 180) {
+            console.log("Lineage " + i + " timed out!")
+            lineages[i].free_up();
+        }
 
         if (converged(lineages[i].chains)) {
+            console.log("Terminating Lineage "+i+"!")
             lineages[i].end();
         }
     }
-    save();
+    await save();
 }
-
-async function clear_Caches() {
-    //Clear all saved backups, and then re-save with the current logs. Will not work if Lineages are empty.
-    if (lineage_length(lineages[0].chains) == 0)
-        console.log("We're empty, not clearing caches for safety!");
-    else {
-        fs.readdir("backup", (err, files) => {
-            if (err) throw err;
-            for (const file of files) {
-                fs.unlink(path.join("backup", file), (err) => {
-                    if (err) throw err;
-                });
-            }
-        });
-        save();
-    }
-}
-
 //Routing via Express
 
 app.get("/checkout", (req, res) => {
@@ -333,10 +330,9 @@ app.post("/checkin", (req, res) => {
     let success: boolean;
     //console.log(JSON.stringify(req.body, null, 2));
     let input: session_in = req.body;
-    //console.log(JSON.stringify(input.chains, null, 2));
     for (let i: number = 0; i < lineages.length; i++) {
         if (lineages[i].id == input.lineage_ID) {
-            success = lineages[i].checkin(input.id, input.accept, input.chains);
+            success = lineages[i].checkin(input.id, input.accept, reform_chains(input.chains));
             break;
         }
     }
@@ -364,7 +360,7 @@ let cancelValue: Timeout;
 async function init() {
     lineages = [];
     await loadLatest();
-    let minutes = 10;
+    let minutes = 1;
     cancelValue = setInterval(await maintain, minutes * 60000);
 }
 
