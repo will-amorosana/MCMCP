@@ -37,6 +37,7 @@
         <option value="TypeScript File" />
         <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -55,7 +56,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -68,6 +70,9 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\WDAmo\GitHub\MCMCP\src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\WDAmo\Desktop\Final Project\MCMCP" />
     </key>
@@ -107,7 +112,11 @@
       <workItem from="1614599199323" duration="14107000" />
       <workItem from="1614631727807" duration="13000" />
       <workItem from="1614701117143" duration="2670000" />
-      <workItem from="1614860983732" duration="5654000" />
+      <workItem from="1614860983732" duration="6469000" />
+      <workItem from="1614887108488" duration="191000" />
+      <workItem from="1615027768507" duration="68000" />
+      <workItem from="1615030953278" duration="64000" />
+      <workItem from="1615203761632" duration="6705000" />
     </task>
     <servers />
   </component>
@@ -135,11 +144,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="624" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612367556831" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1614631738796">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1614869113613">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1611065509920" />
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1614631738796" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1614869113613" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1613585735914">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

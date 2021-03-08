@@ -7,7 +7,7 @@
     "singer": "parcel src/index.html",
     "scrivener": "ts-node src/scrivener.ts",
     "smith": "node src/fontsmith.js",
-    "courier": "node src/Courier.js",
+    "courier": "parcel src/courier.html",
     "format": "prettier src/ --write",
     "chekhov": "ts-node src/chekhov.ts"
   },

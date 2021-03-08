@@ -64,7 +64,7 @@ async function load(hash: string) {
             let new_lineage = new Lineage(
                 raw_data[i].id.slice(-1),
                 raw_data[i].instr_font,
-                raw_data[i].question,
+                raw_data[i].question, //TODO Remove question entirely.
                 NUMBER_OF_CHAINS,
                 raw_data[i].status
             );

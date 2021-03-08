@@ -1,0 +1,7 @@
+img {
+    width: 683px;
+    height: 194px;
+    background: url(../loading.gif) 50% no-repeat;
+    border: 1px solid black;
+    border-radius: 5px;
+}

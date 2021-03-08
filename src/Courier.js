@@ -6,6 +6,8 @@ let output = {
     id: null,
     lin_ID: null,
 };
+const btn = document.getElementById('btn')
+btn.onclick = get_img
 
 function get() {
     axios
@@ -40,16 +42,16 @@ function save_output() {
         });
 }
 
-function get() {
-    axios
-        .get("http://localhost:3000/checkout/")
-        .then(function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+
+
+function get_img() {
+    var image = document.getElementById('canvas');
+    var downloadingImage = new Image();
+    downloadingImage.onload = function(){
+        image.src = this.src;
+    };
+    downloadingImage.src = "http://localhost:1999/screen/0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0/";
 }
 
 //setInterval(output, 10000);
-save_output();
+// save_output();
