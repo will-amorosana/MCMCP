@@ -1,41 +1,37 @@
-class Params {
-    x: number;
-    y: number;
+class Params {//A wrapper for an array of integer values [0,100]
+    values: number[];
 
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
+    constructor(values: number[]) {
+        if(values.length != 16){
+            console.log("Something is very wrong- I just saw a Params object with length != 16 :(")
+        }else this.values = values;
     }
 
-    out() {
-        return [this.x, this.y];
-    }
-
-    auto_copy() {
-        let copy = new Params(this.x, this.y);
-        return copy;
+    static new_uniform() {
+        let out_values: number[] = [];
+        for(let i: number = 0; i < 16; i++){//Confirmed this works in scratch.js
+            out_values.push(Math.floor(Math.random() * 101))
+        }
+        return new Params(out_values);
     }
 
     prop(variance: number) {
-        const x = this.x + Params.box_mueller(variance);
-        const y = this.y + Params.box_mueller(variance);
-        return new Params(
-            Math.round((x + Number.EPSILON) * 100) / 100,
-            Math.round((y + Number.EPSILON) * 100) / 100
-        );
+        let out_values: number[] = [];
+        for(let i: number = 0; i < this.values.length; i++){
+            out_values.push(this.values[i] + Params.box_mueller(variance))
+        }
+        return new Params(out_values);
     }
 
     isLegal() {
-        if (this.x < 0 || this.x > 350) return false;
-        if (this.y < 0 || this.y > 350) return false;
-        return true;
+        for(let i: number = 0; i < 16; i++){
+            if(this.values[i]>100 || this.values[i] < 0) return false
+        }
+        return true
     }
 
-    static reform({ x, y }) {
-        return new Params(x, y);
-    }
 
-    static box_mueller(variance: number) {
+    static box_mueller(variance: number) {//TODO: Student's T perhaps???
         let u = 0,
             v = 0;
         while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
@@ -47,12 +43,7 @@ class Params {
         );
     }
 
-    static new_uniform() {
-        return new Params(
-            Math.floor(Math.random() * 20),
-            Math.floor(Math.random() * 20)
-        );
-    }
+
 }
 
 //A new result is added for each choice the user makes, and for each automatic rejection.
@@ -71,14 +62,10 @@ enum lineage_status {
 }
 
 enum instruction_font {
-    OpenSans,
-    PlayfairDisplay,
+    Georgia,
+    Arial,
 }
 
-enum question_word {
-    professional,
-    readable,
-}
 
 const NUMBER_OF_CHAINS: number = 3;
 
@@ -86,7 +73,6 @@ interface session_out {
     //Session object used in check-out process
     id: String;
     font: instruction_font;
-    question: question_word;
     heads: Params[];
     lineage_ID: String;
 }
@@ -103,7 +89,6 @@ export {
     Result,
     lineage_status,
     instruction_font,
-    question_word,
     NUMBER_OF_CHAINS,
     session_out,
     session_in,

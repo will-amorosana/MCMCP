@@ -3,7 +3,6 @@ import {
     lineage_status,
     NUMBER_OF_CHAINS,
     Params,
-    question_word,
     Result,
     session_in,
     session_out,
@@ -64,7 +63,6 @@ async function load(hash: string) {
             let new_lineage = new Lineage(
                 raw_data[i].id.slice(-1),
                 raw_data[i].instr_font,
-                raw_data[i].question, //TODO Remove question entirely.
                 NUMBER_OF_CHAINS,
                 raw_data[i].status
             );
@@ -118,7 +116,6 @@ class Lineage {
     public chains: Result[][] = [];
     public seshID: Date;
     public instr_font: instruction_font;
-    public question: question_word;
 
     constructor(
         id: number,
@@ -133,7 +130,6 @@ class Lineage {
             this.chains.push(x);
         }
         this.instr_font = font;
-        this.question = q;
         this.status = status;
     }
 
@@ -153,7 +149,7 @@ class Lineage {
         }
         for (let i = 0; i < this.chains.length; i++) {
             let head: Result = this.chains[i][this.chains[i].length - 1];
-            heads.push(Params.reform(head.chosen));
+            heads.push(new Params(head.chosen.values));
         }
         this.status = lineage_status.Busy;
         this.seshID = sesh;
@@ -201,8 +197,8 @@ function reform_chains(chains: Result[][]) {
             const new_Res: Result = {
                 author: result.author,
                 auto: result.auto,
-                chosen: Params.reform(result.chosen),
-                rejected: Params.reform(result.rejected),
+                chosen: new Params(result.chosen.values),
+                rejected: new Params(result.rejected.values),
             };
             new_chain.push(new_Res);
         });
@@ -249,7 +245,7 @@ function converged(in_chains: Result[][]) {
             let chain_sum: number = 0;
             for (let k: number = 0; k < chains[i].length; k++) {
                 //First, find the mean
-                chain_sum += chains[i][k].chosen.out()[j];
+                chain_sum += chains[i][k].chosen.values[j];
             }
             total_sum += chain_sum;
             total_samples += chains[i].length;
@@ -258,7 +254,7 @@ function converged(in_chains: Result[][]) {
             for (let k: number = 0; k < chains[i].length; k++) {
                 //Then, once we have that, find the std dev
                 chain_sum += Math.pow(
-                    chains[i][k].chosen.out()[j] - chain_avgs[i],
+                    chains[i][k].chosen.values[j] - chain_avgs[i],
                     2
                 );
             }
@@ -328,7 +324,6 @@ app.get("/checkout", (req, res) => {
             id: seshID.toString(),
             lineage_ID: choice.id,
             font: choice.instr_font,
-            question: choice.question,
             heads: heads,
         };
         res.json(output);

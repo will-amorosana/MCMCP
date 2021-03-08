@@ -2,7 +2,6 @@ import {
     instruction_font,
     NUMBER_OF_CHAINS,
     Params,
-    question_word,
     Result,
     session_in,
     session_out,
@@ -12,6 +11,7 @@ const axios = require("axios");
 
 //CONSTANTS
 const SCRIVENER_URL: String = "http://localhost:3000";
+const SCRYBE_URL: String = "http://localhost:1999/screen";
 const ITERATIONS: number = 10; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
 const INPUT_STREAK_THRESHOLD: number = 20; //probability of 20 straight lefts/rights/alts ~= 1 in a million
 const INPUT_SHARE_THRESHOLD: number = 0.9; //Probability of number of rights being above 54% = 1 in a million//TODO: Revert to .65
@@ -25,22 +25,24 @@ const pages = [
 ];
 
 let chains: Result[][];
+let lefts: Params[] = [];
+let rights: Params[] = [];
+let left_imgs: HTMLImageElement[] = [];
+let right_imgs: HTMLImageElement[] = [];
+let showing_chain: number = -1;
 
 //HTML Elements and their associated values
 let text_box: HTMLElement = document.getElementById("container");
-let c1: HTMLCanvasElement = document.getElementById(
+let c1: HTMLImageElement = document.getElementById(
     "canvas_1"
-) as HTMLCanvasElement;
-let c2: HTMLCanvasElement = document.getElementById(
+) as HTMLImageElement;
+let c2: HTMLImageElement = document.getElementById(
     "canvas_2"
-) as HTMLCanvasElement;
-let panel1: CanvasRenderingContext2D = c1.getContext("2d");
-let panel2: CanvasRenderingContext2D = c2.getContext("2d");
-let side1: Params = null;
-let side2: Params = null;
+) as HTMLImageElement;
+
+
 
 //Values for use during run
-let current_chain: number = 0;
 let inputs: boolean[] = [];
 let iters: number = ITERATIONS;
 
@@ -50,7 +52,6 @@ let t: number = INPUT_SHARE_THRESHOLD;
 
 //Info to be taken from server
 let font_of_choice: instruction_font;
-let question: question_word;
 let seshID: String;
 let lineage_ID: String;
 let heads: Params[];
@@ -66,6 +67,10 @@ async function init() {
     chains = [];
     for (let i = 0; i < NUMBER_OF_CHAINS; i++) {
         chains.push([]);
+        lefts.push(null);
+        rights.push(null);
+        left_imgs.push(new Image());
+        right_imgs.push(new Image());
     }
 
     //Add panic button
@@ -75,14 +80,12 @@ async function init() {
     let retrieved: boolean = await retrieve();
     if (retrieved) {
         console.log("Successfully retrieved session!");
-        let q_word =
-            question == question_word.professional
-                ? "professional"
-                : "readable";
         document.getElementById("criteria").innerText =
-            "Which font do you think is more " + q_word + "?";
-
-        await prep_chain();
+            "Which font do you think is more professional?";
+        for(let i: number = 0; i < NUMBER_OF_CHAINS; i++){
+            iterate_chain(i, null, null);
+        }
+        await render_chain(0);
     } else server_full();
 }
 
@@ -105,11 +108,10 @@ async function retrieve() {
         const session: session_out = response.data;
         seshID = session.id;
         font_of_choice = session.font;
-        question = session.question;
         heads = fix_heads(session.heads);
         lineage_ID = session.lineage_ID;
-        console.log("Lineage: " + lineage_ID);
-        console.log(heads);
+        // console.log("Lineage: " + lineage_ID);
+        // console.log(heads);
         return true;
     }
 }
@@ -118,7 +120,7 @@ function fix_heads(heads) {
     if (heads) {
         let out_heads: Params[] = [];
         for (let i: number = 0; i < NUMBER_OF_CHAINS; i++) {
-            out_heads.push(new Params(heads[i].x, heads[i].y));
+            out_heads.push(new Params(heads[i].values));
         }
         return out_heads;
     }
@@ -150,103 +152,107 @@ function load_experiment() {
 
 }
 
-async function next_chain() {
-    if (current_chain < chains.length - 1) {
-        current_chain += 1;
+function next_chain(chain: number) {
+    if (chain < 0) return chain;
+    else if(chain < chains.length - 1) {
+        return (chain+1);
     } else {
-        current_chain = 0;
+        return 0;
         iters -= 1;
     }
-
-    if (iters == 0) {
-        await end_run();
-    } else {
-        await prep_chain();
-    }
 }
 
-function state() {
-    if (chains[current_chain].length == 0) {
-        //If this is the first iteration of the current run, check the heads from  last session. Should return null otherwise.
-        //console.log(heads[0] instanceof Params);
-        return heads != null ? heads[current_chain].auto_copy() : null;
-    } else {
-        //If it's not the first step in the run, return the head of the current run
-        return chains[current_chain][chains[current_chain].length - 1].chosen;
+function load_fonts(chain: number) {
+    function format_url(p: Params){
+        let out: string = SCRYBE_URL + "/"
+        for(let i: number = 0; i<p.values.length; i++){
+            out += p.values[i].toString()
+            if(i < 15) out += "-"
+            else out+= "/"
+        }
+        return out;
     }
+    left_imgs[chain].src = format_url(lefts[chain])
+    right_imgs[chain].src = format_url(rights[chain])
 }
 
-async function prep_chain() {
-    let old_params: Params = state(); //Get the last point from the current chain
+function iterate_chain(chain: number, chosen: Params, rejected: Params){
+    console.log("Iterating on Chain "+chain+"...")
+    if(chosen != null || rejected != null) {
+        let new_state: Result = {
+            author: seshID,
+            auto: false,
+            chosen: chosen,
+            rejected: rejected,
+        };
+        if (chains[chain].length == 0){
+            chains[chain].push(new_state)
+        }else if(chains[chain][chains[chain].length - 1].chosen == chosen || chains[chain][chains[chain].length - 1].chosen == rejected){
+            chains[chain].push(new_state)
+        } else {
+            console.log("Something went wrong! You're trying to put a Result on the wrong chain")
+        }
+    }
+    let old_params: Params; //Get the last point from the current chain
+    if (chains[chain].length == 0) {
+        old_params = heads != null ? new Params(heads[chain].values) : null;
+    } else {
+        old_params = chains[chain][chains[chain].length - 1].chosen;
+    }
     let new_params: Params;
     if (old_params == null) {
         old_params = Params.new_uniform();
         new_params = Params.new_uniform();
-    } else {
-        //If you did get a state, create a proposed state by modifying the old one by the proposal distribution
-        console.log("old_params: " + JSON.stringify(old_params));
+    }else {
         new_params = old_params.prop(PROPOSAL_VARIANCE);
         while (!new_params.isLegal()) {
-            chains[current_chain].push({
+            chains[chain].push({
                 author: seshID,
-                auto: false,
-                chosen: old_params.auto_copy(),
-                rejected: new_params.auto_copy(),
+                auto: true,
+                chosen: new Params(old_params.values),
+                rejected: new Params(new_params.values)
             });
             new_params = old_params.prop(PROPOSAL_VARIANCE);
         }
     }
-    side1 = old_params;
-    side2 = new_params;
+    if (Math.random() > 0.5) {
+        lefts[chain] = old_params
+        rights[chain] = new_params
+    }else{
+        lefts[chain] = new_params
+        rights[chain] = old_params
+    }
+    load_fonts(chain)
+    }
 
-    await render();
+
+async function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function render() {
-    function ellipse(context, cx, cy, rx, ry) {
-        context.clearRect(0, 0, cx * 2, cy * 2);
-        context.save(); // save state
-        context.beginPath();
-
-        context.translate(cx - rx, cy - ry);
-        context.scale(rx, ry);
-        context.arc(1, 1, 1, 0, 2 * Math.PI, false);
-
-        context.restore(); // restore to original state
-        context.stroke();
-    }
-    if (Math.random() > 0.5) {
-        //Swap them half the time
-        let temp: Params = side1;
-        side1 = side2;
-        side2 = temp;
-    }
-    ellipse(panel1, 350, 350, side1.x, side1.y);
-    ellipse(panel2, 350, 350, side2.x, side2.y);
+async function render_chain(chain: number) {
+    console.log("Rendering chain"+chain+"...")
+    c1.src = '../clear.png';
+    c2.src = '../clear.png';
+    await sleep(200);
+    c2.onload= function(){
+        showing_chain= chain;
+    };
+    c1.src = left_imgs[chain].src;
+    c2.src = right_imgs[chain].src;
 }
 
 async function process_input(right: boolean) {
     if (iters >= 0) {
-        let new_state: Result;
         if (right) {
-            new_state = {
-                author: seshID,
-                auto: false,
-                chosen: side2,
-                rejected: side1,
-            };
+            iterate_chain(showing_chain, rights[showing_chain], lefts[showing_chain])
             inputs.push(true);
         } else {
-            new_state = {
-                author: seshID,
-                auto: false,
-                chosen: side1,
-                rejected: side2,
-            };
+            iterate_chain(showing_chain, lefts[showing_chain], rights[showing_chain])
             inputs.push(false);
         }
-        chains[current_chain].push(new_state);
-        await next_chain();
+        if (iters <= 0 && next_chain(showing_chain) == 0) await end_run();
+        else await render_chain(next_chain(showing_chain));
     }
 }
 
@@ -315,7 +321,5 @@ function server_full() {
     document.getElementById("criteria").innerText =
         "We're sorry, but the server appears to be busy. Please revisit this site in an hour.";
 }
-
-//==========================================
 
 init().then();

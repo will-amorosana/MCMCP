@@ -34,11 +34,9 @@ const param_names: string[] = [
 let browser;
 let page;
 let preview_box;
-const loading_text: string = "Please wait, fonts are loading..."
 const test_text: string = "Fix problem quickly with galvanized jets. Pack my red box with five dozen quality jugs. "+
     "Few black taxis drive up major roads on quiet hazy nights.  By Jove, my quick study of lexicography won a prize. " +
     "Grumpy wizards make a toxic brew for the jovial queen. Waxy and quivering, jocks fumble the pizza. Sphinx of black quartz, judge my vow."
-// let input: number[]= [1.4, 0.9, 0.9, 0.5, 0.95, 0.3, 0.65, 0.0, 0.0, 1.1, .74, 0.0, 0.6, 1.0, 0.1, 0.5];
 let default_test: string = "localhost:1999/screen/60-90-60-50-40-12-30-0-0-10-65-50-80-70-14-60/"
 
 
