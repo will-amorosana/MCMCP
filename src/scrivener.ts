@@ -38,7 +38,15 @@ function load_scratch() {
     console.log("Loading from scratch! Maybe your file wasn't found...");
     for (let i: number = 0; i < 2; i++) {
         for (let j: number = 0; j < 2; j++) {
-            lineages.push(new Lineage(i * 2 + j, i, j, NUMBER_OF_CHAINS, lineage_status.New));
+            lineages.push(
+                new Lineage(
+                    i * 2 + j,
+                    i,
+                    j,
+                    NUMBER_OF_CHAINS,
+                    lineage_status.New
+                )
+            );
         }
     }
 }
@@ -153,7 +161,6 @@ class Lineage {
         }
         this.status = lineage_status.Busy;
         this.seshID = sesh;
-        console.log(heads);
         return heads;
     }
 
@@ -176,14 +183,12 @@ class Lineage {
         }
     }
 
-
-
     end() {
         this.status = lineage_status.Converged;
         this.seshID = null;
     }
 
-    free_up(){
+    free_up() {
         this.status = lineage_status.Free;
         this.seshID = null;
     }
@@ -204,7 +209,7 @@ function reform_chains(chains: Result[][]) {
         });
         out_chains.push(new_chain);
     }
-    return out_chains
+    return out_chains;
 }
 
 function lineage_length(chains: Result[][]) {
@@ -215,19 +220,20 @@ function lineage_length(chains: Result[][]) {
     return count / NUMBER_OF_CHAINS;
 }
 
-function latter_half(chains: Result[][]){//Returns the second half of the input Chains, rounded up (middle element included).
+function latter_half(chains: Result[][]) {
+    //Returns the second half of the input Chains, rounded up (middle element included).
     let new_chains: Result[][] = [];
-    for(let i = 0; i < chains.length; i++){
-        let half_len = Math.floor(chains[i].length / 2)
-        new_chains.push(chains[i].splice(-half_len))
+    for (let i = 0; i < chains.length; i++) {
+        let half_len = Math.floor(chains[i].length / 2);
+        new_chains.push(chains[i].splice(-half_len));
     }
     return new_chains;
 }
 
 function converged(in_chains: Result[][]) {
     let chains: Result[][];
-    if (lineage_length(in_chains)<10) return 0;
-    else chains = latter_half(in_chains)
+    if (lineage_length(in_chains) < 10) return 0;
+    else chains = latter_half(in_chains);
     //Returns 0 if unconverged (>1.2 for at least one param, 1 if partially converged(<1.2 for all, >1.1 for some), or 2 if fully converged (<1.1 for all)
     const m: number = NUMBER_OF_CHAINS; //The number of chains
     const n: number = lineage_length(chains); //The (average) chain length, N
@@ -288,18 +294,18 @@ async function maintain() {
         //For each lineage...
         //console.log("Maintaining Lineage "+i+"...")
 
-         //If it's been more than 3 hours since it was checked out, check it back in.
-        if (lineages[i].seshID){
+        //If it's been more than 3 hours since it was checked out, check it back in.
+        if (lineages[i].seshID) {
             let minutes: number = 0;
             minutes = (currentDate - lineages[i].seshID.getTime()) / 60000;
             if (minutes > 180) {
-                console.log("Lineage " + i + " timed out!")
+                console.log("Lineage " + i + " timed out!");
                 lineages[i].free_up();
             }
         }
 
         if (converged(lineages[i].chains)) {
-            console.log("Terminating Lineage "+i+"!")
+            console.log("Terminating Lineage " + i + "!");
             lineages[i].end();
         }
     }
@@ -339,7 +345,11 @@ app.post("/checkin", (req, res) => {
     let input: session_in = req.body;
     for (let i: number = 0; i < lineages.length; i++) {
         if (lineages[i].id == input.lineage_ID) {
-            success = lineages[i].checkin(input.id, input.accept, reform_chains(input.chains));
+            success = lineages[i].checkin(
+                input.id,
+                input.accept,
+                reform_chains(input.chains)
+            );
             break;
         }
     }

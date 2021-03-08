@@ -119,3 +119,4 @@ dist
 dist/
 backup/*.json
 
+*.png
