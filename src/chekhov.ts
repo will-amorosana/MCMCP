@@ -72,6 +72,7 @@ let max_values = [2,
     1.5,
     0.8,
     1]
+let busy: boolean = true;
 
 let hashCode = s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)
 
@@ -105,6 +106,7 @@ async function init(){
     await sleep(1000);
     console.log("Done with setup!")
     preview_box = await page.$(`#preview-typewriter > div > div.preview-text-wrapper`)
+    busy = false;
 }
 
 async function set_params(params: number[]){//Does the whole rigamarole
@@ -131,40 +133,30 @@ async function screen(filename: string){
 
 
 app.get("/:format/:a-:b-:c-:d-:e-:f-:g-:h-:i-:j-:k-:l-:m-:n-:o-:p", async (req, res) => {
+    while(busy){
+        await sleep(500)
+    }
+    busy = true;
     console.log("Request Received!")
     let params = format_values(req.params);
     console.log(params);
     let filename: string = `fonts/font`+hashCode(params.toString()); //Generate a unique hash filename for that font
     // console.log(filename);
-    if(req.params.format == "font"){
-        try{
-            if (fs.existsSync(filename+".otf")) {//Checks if font already exists before checking for a new one
-                console.log("File Found!")
-                await res.sendFile(path.join(__dirname, '../', filename + ".otf"))
-            }else{
-                await set_params(params);
-                await download(filename);
-                await sleep(500)
-                await res.sendFile(path.join(__dirname, '../', filename + ".otf"))
-                console.log("Sent!")
-            }
-        }catch(err) {
-            console.error(err)
+    try{
+        if (fs.existsSync(filename+".png")) {//Checks if font already exists before checking for a new one
+            console.log("File "+filename+" Found!")
+            await res.sendFile(path.join(__dirname, '../', filename + ".png"))
+            busy = false;
+        }else{
+            await set_params(params);
+            await screen(filename);
+            await res.sendFile(path.join(__dirname, '../', filename + ".png"))
+            console.log("Sent"+filename+"!")
+            busy = false;
         }
-    }else if(req.params.format == "screen"){
-        try{
-            if (fs.existsSync(filename+".png")) {//Checks if font already exists before checking for a new one
-                console.log("File Found!")
-                await res.sendFile(path.join(__dirname, '../', filename + ".png"))
-            }else{
-                await set_params(params);
-                await screen(filename);
-                await res.sendFile(path.join(__dirname, '../', filename + ".png"))
-                console.log("Sent!")
-            }
-        }catch(err) {
-            console.error(err)
-        }
+    }catch(err) {
+        console.error(err)
+        busy = false
     }
 
 })

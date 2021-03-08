@@ -367,7 +367,7 @@ let cancelValue: Timeout;
 async function init() {
     lineages = [];
     await loadLatest();
-    let minutes = 1;
+    let minutes = 15;
     cancelValue = setInterval(await maintain, minutes * 60000);
 }
 
