@@ -8,8 +8,7 @@
     "scrivener": "ts-node src/scrivener.ts",
     "smith": "node src/fontsmith.js",
     "courier": "parcel src/courier.html",
-    "format": "prettier src/ --write",
-    "chekhov": "ts-node src/chekhov.ts"
+    "format": "prettier src/ --write"
   },
   "private": true,
   "author": "Will Amorosana",
@@ -19,10 +18,12 @@
     "cors": "^2.8.5",
     "d3": "^6.2.0",
     "express": "^4.17.1",
+    "fs-extra": "^9.1.0",
     "gaussian": "^1.1.0",
     "json-2-csv": "^3.10.2",
     "json2csv": "^5.0.6",
     "parcel": "^1.12.4",
+    "prompt": "^1.1.0",
     "puppeteer": "^5.5.0"
   },
   "browserslist": [

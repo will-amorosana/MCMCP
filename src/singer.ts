@@ -11,14 +11,14 @@ const axios = require("axios");
 
 //CONSTANTS
 const SCRIVENER_URL: String = "http://localhost:3000";
-const SCRYBE_URL: String = "http://localhost:1999/screen";
+
 const ITERATIONS: number = 5; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
 const INPUT_STREAK_THRESHOLD: number = 20; //probability of 20 straight lefts/rights/alts ~= 1 in a million
 const INPUT_SHARE_THRESHOLD: number = 0.9; //Probability of number of rights being above 54% = 1 in a million//TODO: Revert to .65
 const PROPOSAL_VARIANCE: number = 10; //For fonts, starting around .1 is a good start for most values.
 const pages = [
-    '<header>\n                <div class="page-header-icon undefined">\n                    <span class="icon">📜</span>\n                </div>\n                <h1 class="page-title">Instructions</h1>\n            </header>\n            <div class="page-body">\n                <p id="4a710f91-a4d3-4a93-b0cf-ab5c6d8a3cd3" class="">\n                    In this study, we&#x27;ll be asking you to make a series of\n                    choices between fonts. You will be presented with two fonts\n                    at a time, and should choose one based on the criterion at\n                    the top of the page. You can either click on the text you\n                    prefer to make your choice, or press the &#x27;A&#x27; or\n                    &#x27;D&#x27; keys to choose left or right, respectively.' +
-        '\n                    Try not to agonize over each choice, we expect each choice\n                    to take between 1 and 5 seconds.\n                </p>\n                <p id="e39903e7-0049-424e-8db6-91b0290c1edf" class="">\n                    You will be making a large number of choices, but we expect\n                    you to be able to complete the survey within an hour. Once\n                    you start the survey, please complete it in full. If you\n                    take more than 3 hours to complete the survey, we will not\n                    be able to use your data. When you have completed all of\n                    your choices, a screen will appear to thank you for your\n                    time.\n                </p>\n                <p id="1583a193-a4db-43cc-bd1b-5c7662c4e017" class="">\n                    Some of the fonts may appear warped or strange. If both\n                    fonts look strange, and you don&#x27;t think either one\n                    applies to the criteria, just make your best guess as to\n                    which better aligns with the criterion.\n                </p>\n                <p id="ce591c4e-0da5-4115-ba65-bccd3b7ab586" class="">\n                    When you click &quot;Start&quot; below, you&#x27;ll be taken\n                    to the survey interface.\n                </p>\n                <button id="Start"> Start </button>\n            </div>',
+    '<header><div class="page-header-icon undefined"><span class="icon">📜</span></div><h1 class="page-title">Instructions</h1></header><div class="page-body"><p id="4a710f91-a4d3-4a93-b0cf-ab5c6d8a3cd3" class="">In this study, we&#x27;ll be asking you to make a series of choices between fonts. You will be presented with two fonts at a time, and should choose one based on the criterion at the top of the page. You can either click on the text you prefer to make your choice, or press the &#x27;A&#x27; or &#x27;D&#x27; keys to choose left or right, respectively. Try not to agonize over each choice, we expect each choice to take between 1 and 5 seconds.</p>' +
+        '<p id="e39903e7-0049-424e-8db6-91b0290c1edf" class="">You will be making a large number of choices, but we expect you to be able to complete the survey within an hour. Once you start the survey, please complete it in full. If you take more than 3 hours to complete the survey, we will not be able to use your data. When you have completed all of your choices, a screen will appear to thank you for your time.</p><p id="1583a193-a4db-43cc-bd1b-5c7662c4e017" class="">Some of the fonts may appear warped or strange. If both fonts look strange, and you don&#x27;t think either one applies to the criteria, just make your best guess as to which better aligns with the criterion. Additionally, some fonts will not show all the text. This is normal, please do not include this in your judgement. </p><p id="ce591c4e-0da5-4115-ba65-bccd3b7ab586" class="">When you click &quot;Start&quot; below, you&#x27;ll be taken to the survey interface.</p>\n  <button id="Start"> Start </button>\n            </div>',
     '<header><div class="page-header-icon undefined"><span class="icon">🙏</span></div><h1 class="page-title">Thanks!</h1></header><div class="page-body"><p id="5c46882d-7aca-4633-8ad7-fbeef8ed5a28" class="">Thank you for participating in the study. The data of your choices has been logged with our server, and we&#x27;ll be using it in our analysis.</p><p id="78085091-60a7-4ff8-bbd2-1dea57e7ae75" class="">The fonts in this study were parametrically generated from a set of 16 parameters. Your results are combined with those of other participants to form a chain of responses. We analyze that chain to discern which parameters create readable and professional fonts, and which do not.</p><p id="fd53f4a3-570f-4075-94fc-fc985139a5d8" class="">\n' +
         '</p><p id="9d15e188-2e74-4801-b989-49f4a5be85b6" class="">If you&#x27;re coming from our AMTurk HIT, use the following code in the HIT Interface:<div class="indented"><p id="7165edeb-ff16-4eec-ab18-cbfab69296e7" class="">5a3fddca87bde60eab005de971ba20b880ca99c3</p><p id="2503f75f-1a5c-4bc8-aae1-b9c3e5931e64" class="">\n' +
         "</p></div></p></div>",
@@ -152,7 +152,7 @@ function load_experiment() {
 
 function load_fonts(chain: number) {
     function format_url(p: Params) {
-        let out: string = SCRYBE_URL + "/";
+        let out: string = SCRIVENER_URL + "/screen/";
         for (let i: number = 0; i < p.values.length; i++) {
             out += p.values[i].toString();
             if (i < 15) out += "-";
@@ -328,7 +328,7 @@ async function send_results(accept: boolean) {
         chains: chains,
         id: seshID,
     };
-    const response = await axios.post(SCRIVENER_URL + "/checkin", output);
+    const response = await axios.post(SCRIVENER_URL + "/checkin/", output);
     console.log(response.status);
 }
 
