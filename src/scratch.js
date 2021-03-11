@@ -1,8 +1,4 @@
-for (let i = 0; i < 1000000; i++) {
-    var x = Math.floor(Math.random() * 101);
-    if (x < 0) console.log("Too Low!");
-    // if(x==0)console.log("Bottoms Up!")
-    // if(x==100)console.log("All the Way Up!")
-    if (x > 100) console.log("Too High!");
-}
+let arr = [1,2,3,4,5,6,7,8,9,10];
+let half_len = Math.floor(arr.length / 2);
+console.log(arr.slice(-half_len));
 console.log("Done!");

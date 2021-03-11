@@ -68,7 +68,7 @@ enum instruction_font {
     Arial,
 }
 
-const NUMBER_OF_CHAINS: number = 3;
+const NUMBER_OF_CHAINS: number = 4;
 
 interface session_out {
     //Session object used in check-out process

@@ -12,12 +12,12 @@ const { chromium } = require("playwright");
 const fs = require("fs-extra");
 const path = require("path");
 var express = require("express");
-var bodyParser = require("body-parser");
+var bodyParser = require("body-parser")
 var app = express();
 const cors = require("cors");
 var prompt = require('prompt');
 app.use(cors());
-app.use(bodyParser.json({limit: '100kb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 const port = 3000;
 
 
@@ -250,7 +250,7 @@ async function output() {
                     let csvToSave: String = "data:text/csv;charset=utf-8,";
                     csvToSave = await converter.json2csvAsync(
                         lineages[i].chains[j],
-                        { expandArrayObjects: true, unwindArrays: true }
+                        { expandArrayObjects: true, unwindArrays: false }
                     );
                     fs.writeFileSync(
                         filePath +
@@ -386,24 +386,24 @@ function lineage_length(chains: Result[][]) {
     return count / NUMBER_OF_CHAINS;
 }
 
-function latter_half(chains: Result[][]) {
-    //Returns the second half of the input Chains, rounded up (middle element included).
-    let new_chains: Result[][] = [];
-    for (let i = 0; i < chains.length; i++) {
-        let half_len = Math.floor(chains[i].length / 2);
-        new_chains.push(chains[i].splice(-half_len));
+function converged(lin: Lineage) {
+    function latter_half(chains: Result[][]) {
+        //Returns the second half of the input Chains, rounded up (middle element included).
+        let new_chains: Result[][] = [];
+        for (let i = 0; i < chains.length; i++) {
+            let half_len = Math.floor(chains[i].length / 2);
+            new_chains.push(chains[i].slice(-half_len));
+        }
+        return new_chains;
     }
-    return new_chains;
-}
 
-function converged(in_chains: Result[][]) {
     let chains: Result[][];
-    if (lineage_length(in_chains) < 10) return 0;
-    else chains = latter_half(in_chains);
+    if (lineage_length(lin.chains) < 10) return 0;
+    else chains = latter_half(lin.chains);
     //Returns 0 if unconverged (>1.2 for at least one param, 1 if partially converged(<1.2 for all, >1.1 for some), or 2 if fully converged (<1.1 for all)
     const m: number = NUMBER_OF_CHAINS; //The number of chains
     const n: number = lineage_length(chains); //The (average) chain length, N
-    const p: number = 2; //number of parameters
+    const p: number = 16; //number of parameters
     let uni_psrfs: number[] = []; //The effective output
 
     for (let j = 0; j < p; j++) {
@@ -445,7 +445,7 @@ function converged(in_chains: Result[][]) {
         uni_psrfs.push(v_hat / w);
     }
 
-    console.log("PSRF values for each parameter: " + uni_psrfs.toString());
+    console.log("PSRF values for "+lin.id+": " + uni_psrfs.map(x => x.toFixed(2)));
     let perfect: boolean = true;
     for (let i = 0; i < p; i++) {
         if (uni_psrfs[i] >= 1.2) return 0;
@@ -470,7 +470,7 @@ async function maintain() {
             }
         }
 
-        if (converged(lineages[i].chains)) {
+        if (converged(lineages[i])) {
             console.log("Terminating Lineage " + i + "!");
             lineages[i].end();
         }
@@ -545,7 +545,7 @@ app.get(
                     }
                     if(!ripper) await sleep(1000);
                 }while(!ripper);
-                console.log("New request is being served!");
+                //console.log("New request is being served!");
                 await ripper.set_params(params);
                 await ripper.screen(filename);
                 await res.sendFile(
@@ -574,7 +574,7 @@ async function init() {
     }
     lineages = [];
     await loadLatest();
-    let minutes = 15;
+    let minutes = 60;
     cancelValue = setInterval(await maintain, minutes * 60000);
     app.listen(port, () => {
         console.log(`Scrivener is now listening at http://localhost:${port}`);
@@ -593,6 +593,8 @@ async function init() {
             await output();
         }else if(command == "clear"){
             await clear_caches();
+        }else if(command=="maintain"){
+            await maintain();
         }
     await sleep(1000);
     }
