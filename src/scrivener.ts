@@ -21,6 +21,8 @@ app.use(bodyParser.json({limit: '50mb'}));
 const port = 3000;
 
 
+
+
 //Chekhhov Constants and Functions
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -94,6 +96,8 @@ let hashCode = (s) =>
         return a & a;
     }, 0);
 let theBoys: ScreenRipper[] = [];
+const good_to_go: string = "d35ce8acb0d0"
+const something_wrong: string = "27fd37ac81"
 
 function format_values(params: string[]) {
     let input = Object.values(params)
@@ -519,7 +523,8 @@ app.post("/checkin", (req, res) => {
             break;
         }
     }
-    res.send(success);
+    let code: string = (success ? good_to_go : something_wrong) + hashCode(Date.now().toString())
+    res.send(code);
 });
 
 app.get(
@@ -569,7 +574,7 @@ let cancelValue: Timeout;
 
 async function init() {
     browser = await chromium.launch({});
-    for(let i: number = 0; i < 6; i++){
+    for(let i: number = 0; i < 8; i++){
         theBoys.push(new ScreenRipper(i));
     }
     lineages = [];
