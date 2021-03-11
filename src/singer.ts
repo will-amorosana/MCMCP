@@ -1,11 +1,4 @@
-import {
-    instruction_font,
-    NUMBER_OF_CHAINS,
-    Params,
-    Result,
-    session_in,
-    session_out,
-} from "./datatypes";
+import {instruction_font, NUMBER_OF_CHAINS, Params, Result, session_in, session_out,} from "./datatypes";
 
 const axios = require("axios");
 
@@ -57,6 +50,7 @@ let heads: Params[];
 //PRE-RUN METHODS
 
 async function init() {
+
     let consent_button = document.getElementById("consent_confirmed");
     consent_button.addEventListener("click", () => {
         load_instructions();
@@ -80,11 +74,22 @@ async function init() {
         console.log("Successfully retrieved session!");
         document.getElementById("criteria").innerText =
             "Which font do you think is more professional?";
+        if(font_of_choice == instruction_font.Arial){
+            document.getElementById("container").style.fontFamily = "Arial";
+            document.getElementById("criteria").style.fontFamily = "Arial";
+            document.getElementById("counter").style.fontFamily = "Arial";
+        }else{
+            document.getElementById("container").style.fontFamily = "Georgia";
+            document.getElementById("criteria").style.fontFamily = "Georgia";
+            document.getElementById("counter").style.fontFamily = "Georgia";
+        }
         for (let i: number = 0; i < NUMBER_OF_CHAINS; i++) {
             iterate_chain(i, null, null);
         }
+        showing_chain = 0;
         await render_chain(0);
     } else server_full();
+    document.getElementById("container").removeAttribute("hidden");
 }
 
 function load_instructions() {
@@ -223,6 +228,7 @@ async function sleep(ms: number) {
 }
 
 async function render_chain(chain: number) {
+    document.getElementById("counter").innerText="Choices Left: "+(((iters-1) * NUMBER_OF_CHAINS) + (NUMBER_OF_CHAINS - showing_chain)).toString();
     showing_chain = -1
     console.log("Rendering chain " + chain + "...");
     c1.src = "../clear.png";

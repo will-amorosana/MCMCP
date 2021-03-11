@@ -11,12 +11,13 @@ import Timeout = NodeJS.Timeout;
 const { chromium } = require("playwright");
 const fs = require("fs-extra");
 const path = require("path");
-const express = require("express");
+var express = require("express");
+var bodyParser = require("body-parser");
+var app = express();
 const cors = require("cors");
-const app = express();
 var prompt = require('prompt');
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json({limit: '100kb'}));
 const port = 3000;
 
 
@@ -95,7 +96,7 @@ let hashCode = (s) =>
 let theBoys: ScreenRipper[] = [];
 
 function format_values(params: string[]) {
-    let input = Object.values(params).slice(1);
+    let input = Object.values(params)
     let output: number[] = [];
     for (let i: number = 0; i < input.length; i++) {
         let out =
@@ -560,18 +561,6 @@ app.get(
     });
 
 
-
-//TODO: Stuff that should be CLI
-//Force save, Log output, clear font and backup caches
-
-app.post("/save/", (req, res) => {
-    save(true);
-    res.send("Successfully saved data!");
-});
-
-app.post("/output/", () => {
-    output().then();
-});
 
 //Initialization
 let lineages: Lineage[];

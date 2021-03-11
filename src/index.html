@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <div id="container">
+        <div id="container" hidden>
             <header>
                 <div class="page-header-icon undefined">
                     <span class="icon">📰</span>
@@ -209,8 +209,11 @@
         </div>
         <div id="experiment" hidden>
             <h1 id="criteria">Choose the more circular oval.</h1>
-            <img id="canvas_1" width="683" height="194" src="../clear.png" />
-            <img id="canvas_2" width="683" height="194" src="../clear.png" />
+            <h2 id="counter">Choices Left: XXX</h2>
+            <div id="boxes">
+                <img class="font_choice" id="canvas_1" width="683" height="194" src="../clear.png" />
+                <img class="font_choice" id="canvas_2" width="683" height="194" src="../clear.png" />
+            </div>
         </div>
     </body>
     <script src="singer.ts"></script>
