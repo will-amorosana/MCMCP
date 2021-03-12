@@ -197,18 +197,15 @@ function save(setAsNewest: boolean = true) {
 function load_scratch() {
     //Sets up lineages
     console.log("Loading from scratch! Maybe your file wasn't found...");
-    for (let i: number = 0; i < 2; i++) {
-        for (let j: number = 0; j < 2; j++) {
+    for (let i: number = 0; i < 6; i++) {
             lineages.push(
                 new Lineage(
-                    i * 2 + j,
                     i,
-                    j,
+                    (i%2),
                     NUMBER_OF_CHAINS,
                     lineage_status.New
                 )
             );
-        }
     }
 }
 
@@ -298,7 +295,6 @@ class Lineage {
     constructor(
         id: number,
         font: number,
-        q: number,
         num_chains: number,
         status: lineage_status = lineage_status.New
     ) {
