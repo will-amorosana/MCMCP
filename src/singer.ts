@@ -73,7 +73,7 @@ async function init() {
     if (retrieved) {
         console.log("Successfully retrieved session!");
         document.getElementById("criteria").innerText =
-            "Which font do you think is more professional?";
+            "Which font do you think is more readable?";
         if(font_of_choice == instruction_font.Arial){
             document.getElementById("container").style.fontFamily = "Arial";
             document.getElementById("criteria").style.fontFamily = "Arial";
