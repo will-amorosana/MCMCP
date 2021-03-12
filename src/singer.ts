@@ -286,6 +286,7 @@ async function process_input(right: boolean) {
 function panic_end(event) {
     end_run(true);
     event.preventDefault();
+    return event.returnValue = "Are you sure you want to exit?";
 }
 
 function end_run(panic: boolean = false) {
