@@ -65,8 +65,7 @@ async function init() {
         right_imgs.push(new Image());
     }
 
-    //Add panic button
-    window.addEventListener("beforeunload", panic_end);
+
 
     //Gather data from server
     let retrieved: boolean = await retrieve();
@@ -154,6 +153,9 @@ function load_experiment() {
             await process_input(true);
         }
     });
+
+    //Add panic button
+    window.addEventListener("beforeunload", panic_end);
 
     document.getElementById("experiment").removeAttribute("hidden");
 }
@@ -286,7 +288,7 @@ async function process_input(right: boolean) {
 function panic_end(event) {
     end_run(true);
     event.preventDefault();
-    delete event['returnValue'];
+    return event.returnValue = "Oops! We logged what data we had from you. Please refresh the page to start over if you're looking for an MTurk code.";
 }
 
 function end_run(panic: boolean = false) {
