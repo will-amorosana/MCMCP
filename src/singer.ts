@@ -4,7 +4,7 @@ const axios = require("axios");
 
 //CONSTANTS
 const SCRIVENER_URL: String = "http://prokopis.net:3000";
-const ITERATIONS: number = 375; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
+const ITERATIONS: number = 5; //The number of iterations PER CHAIN. Total choices = this * NUMBER_OF_CHAINS
 const INPUT_STREAK_THRESHOLD: number = 20; //probability of 20 straight lefts/rights/alts ~= 1 in a million
 const INPUT_SHARE_THRESHOLD: number = 0.67; //Probability of number of rights being above 54% = 1 in a million
 const PROPOSAL_VARIANCE: number = 10; //For fonts, starting around .1 is a good start for most values.
@@ -283,8 +283,9 @@ async function process_input(right: boolean) {
 }
 
 //POST-RUN METHODS
-function panic_end() {
+function panic_end(event) {
     end_run(true);
+    event.preventDefault();
 }
 
 function end_run(panic: boolean = false) {
