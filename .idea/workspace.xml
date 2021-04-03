@@ -20,11 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ee64a8f-ac66-4ec8-ae57-9c0219013406" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/chekhov.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/MCMCP.e31bb0bc.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/MCMCP.e31bb0bc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/MCMCP.e31bb0bc.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/MCMCP.e31bb0bc.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Courier.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/courier.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datatypes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scratch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scrivener.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/singer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style.css" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +40,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -146,10 +152,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="718" y="160" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1613586462628" />
-    <state x="624" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1615308248999">
+    <state x="624" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1617470524115">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="624" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1615308248999" />
+    <state x="624" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617470524115" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1614869113613">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

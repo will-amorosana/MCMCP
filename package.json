@@ -4,11 +4,7 @@
   "description": "Final Project",
   "main": "index.js",
   "scripts": {
-    "singer": "parcel src/index.html",
-    "scrivener": "ts-node src/scrivener.ts",
-    "courier": "parcel src/courier.html",
-    "format": "prettier src/ --write",
-    "scratch": "node src/scratch.js"
+    "bernie": "ts-node src/chekhov.ts"
   },
   "private": true,
   "author": "Will Amorosana",
