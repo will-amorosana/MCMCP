@@ -79,7 +79,7 @@ let hashCode = s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);retu
 //Input: 16-number array params, each param in interval [0,100]. Actual value of param, multiplied by 100 on client side
 //Output: 16-float array params, each param in interval [min_p, max_p] where p is the parameter in question. Each is rounded to 2 decimals
 function format_values(params: string[]){
-    let input = Object.values(params);
+    let input = Object.values(params).slice(1);
     let output: number[] = [];
     for(let i: number = 0; i < input.length; i++){
 
@@ -119,15 +119,37 @@ async function set_params(params: number[]){//Does the whole rigamarole
 }
 
 
+async function download(filename: string){
+    const [download] = await Promise.all([page.waitForEvent("download"), page.click(otf_downloadSelector)]);
+    await download.saveAs(filename+".otf");
+    // await console.log("Download complete!")
+}
 
-app.get("/font/:a-:b-:c-:d-:e-:f-:g-:h-:i-:j-:k-:l-:m-:n-:o-:p", async (req, res) => {
-    console.log("Request Received!")
-    let params = format_values(req.params);
-    console.log(params);
-    await set_params(params);
+async function screen(filename: string) {
+    console.log("Screenshotting...");
+    await preview_box.screenshot({ path: filename + ".png" });
+}
 
-
-})
+app.get(
+    "/font/:filename/:a-:b-:c-:d-:e-:f-:g-:h-:i-:j-:k-:l-:m-:n-:o-:p",
+    async (req, res) => {
+        console.log("Request Received!");
+        let params = format_values(req.params);
+        console.log(params);
+        let filename: string = `fonts/font` + req.params.filename; //Generate a unique hash filename for that font
+        if (fs.existsSync(filename + ".otf")) {
+            //Checks if font already exists before checking for a new one
+            console.log("File Found!");
+            await res.sendFile(path.join(__dirname, "../", filename + ".otf"));
+        } else {
+            await set_params(params);
+            await download(filename);
+            await sleep(500);
+            await res.send("Success!");
+            console.log("Sent!");
+        }
+    }
+);
 
 app.listen(port, () => {
     console.log(`Chekhov is now listening at http://localhost:${port}`);
