@@ -20,26 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ee64a8f-ac66-4ec8-ae57-9c0219013406" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/fonts/Bespoke Default.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb2_0.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb2_1.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb_10.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb_2.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb_5.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb_6.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb_8.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/font_hdb_9.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontgmm1.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontgmm2.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontgmm3.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontgmm4.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontgmm5.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fontgmm6.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fonthdb0.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fonthdb1.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fonts/fonthdb2.otf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chekhov.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/chekhov.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb2_0.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb2_1.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb_10.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb_2.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb_5.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb_6.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb_8.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/font_hdb_9.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontgmm1.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/fontgmm1.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontgmm2.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/fontgmm2.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontgmm3.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/fontgmm3.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontgmm4.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/fontgmm4.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontgmm5.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/fontgmm5.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonts/fontgmm6.otf" beforeDir="false" afterPath="$PROJECT_DIR$/fonts/fontgmm6.otf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,6 +137,7 @@
       <workItem from="1615548382719" duration="103000" />
       <workItem from="1617729762738" duration="665000" />
       <workItem from="1617802221761" duration="1429000" />
+      <workItem from="1617994150064" duration="69000" />
     </task>
     <servers />
   </component>
